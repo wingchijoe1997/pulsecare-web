@@ -1,0 +1,37 @@
+version: "3"
+services:
+  web_prod:
+    profiles:
+      - prod
+    # container_name: web
+    restart: always
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: production
+    ports:
+      - "3000:3000"
+  web_dev:
+    profiles:
+      - dev
+    # container_name: web
+    restart: always
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017/pulsecare
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+  mongo:
+    profiles:
+      - dev
+    # container_name: mongo
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27018:27017"

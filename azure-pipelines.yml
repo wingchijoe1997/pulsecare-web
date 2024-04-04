@@ -1,0 +1,63 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  - main
+
+resources:
+  - repo: self
+
+variables:
+  tag: "$(Build.BuildId)"
+  DOCKER_BUILDKIT: 1
+
+stages:
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        # Define agent to run the pipeline
+        pool:
+          name: default
+        steps:
+          # - task: DockerCompose@0
+          #   inputs:
+          #     containerregistrytype: "Container Registry"
+          #     dockerRegistryEndpoint: "Github Container Registry"
+          #     dockerComposeFile: "docker/docker-compose.yml"
+          #     action: "Build services"
+          #     additionalImageTags: $(Build.BuildId)
+          #     includeLatestTag: true
+          - task: Docker@2
+            displayName: Build an image
+            inputs:
+              containerRegistry: "Github Container Registry"
+              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              command: "build"
+              Dockerfile: "docker/Dockerfile"
+              buildContext: "."
+              tags: "$(tag)"
+              arguments: "--target=production"
+          - task: Docker@2
+            displayName: Push an image
+            inputs:
+              containerRegistry: "Github Container Registry"
+              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              command: "push"
+              Dockerfile: "docker/Dockerfile"
+              tags: "$(tag)"
+              arguments: ""
+        # # - task: Docker@2
+        # #   inputs:
+        # #     containerRegistry: 'Github Container Registry'
+        # #     repository: 'pulsecare-web'
+        # #     command: 'push'
+        # # - task: DockerCompose@0
+        # #   inputs:
+        # #     containerregistrytype: 'Container Registry'
+        # #     dockerRegistryEndpoint: 'Github Container Registry'
+        # #     dockerComposeFile: '**/docker/docker-compose.yml'
+        # #     action: 'Run a Docker Compose command'
+        # #     arguments: '--profile=prod'
