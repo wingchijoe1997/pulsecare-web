@@ -1,4 +1,5 @@
 FROM node:18-alpine as base
+ENV NEXT_TELEMETRY_DISABLED 1
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 # enbable corepack to use pnpm

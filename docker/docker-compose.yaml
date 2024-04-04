@@ -31,6 +31,8 @@ services:
     restart: always
     environment:
       - MONGODB_URL=mongodb://localhost:27018/PulseCare
+      # For WSL: https://www.reddit.com/r/nextjs/comments/1638ec6/comment/jy1h8ys/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+      - WATCHPACK_POLLING=true
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -41,3 +43,8 @@ services:
       - mongo6
     links:
       - mongo6
+    # This is only for hot reload in development
+    volumes:
+      - ../:/pulsecare-webapp
+      - /pulsecare-webapp/node_modules
+      - /pulsecare-webapp/.next

@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Topbar from "@/components/Topbar";
+import { TailwindIndicator } from "@/components/ui/tailwind-indicator";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Hero } from "@/components/Hero";
+import { Footer } from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +21,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className={`max-h-screen ${inter.className}`}>
+          <Topbar />
+          <Hero />
+          {children}
+          <Footer />
+        </body>
+        <TailwindIndicator />
+      </ThemeProvider>
     </html>
   );
 }
