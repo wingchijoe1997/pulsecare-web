@@ -15,6 +15,7 @@ RUN pnpm exec next telemetry disable
 
 
 FROM deps as production-bundle
+RUN pnpm dlx prisma generate
 RUN pnpm build
 
 FROM deps as development

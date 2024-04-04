@@ -39,7 +39,7 @@ stages:
               Dockerfile: "docker/Dockerfile"
               buildContext: "."
               tags: "$(tag)"
-              arguments: "--target=production"
+              arguments: "--target=production-bundle"
           - task: Docker@2
             displayName: Push an image
             inputs:

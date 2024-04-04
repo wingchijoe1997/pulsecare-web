@@ -1,9 +1,23 @@
-version: "3"
+version: "3.1"
 services:
+  mongo6:
+    profiles:
+      - dev
+    build:
+      context: ./mongodb_rs
+      args:
+        MONGO_VERSION: 6
+    environment:
+      MONGO_REPLICA_HOST: 127.0.0.1
+      MONGO_REPLICA_PORT: 27018
+      # Use "mongo" instead of "mongosh" before v5.0
+      MONGO_COMMAND: "mongosh"
+    ports:
+      - "27018:27018"
+    restart: always
   web_prod:
     profiles:
       - prod
-    # container_name: web
     restart: always
     build:
       context: ..
@@ -14,24 +28,16 @@ services:
   web_dev:
     profiles:
       - dev
-    # container_name: web
     restart: always
     environment:
-      - MONGODB_URL=mongodb://mongo:27017/pulsecare
+      - MONGODB_URL=mongodb://localhost:27018/PulseCare
     build:
       context: ..
       dockerfile: docker/Dockerfile
       target: development
     ports:
       - "3000:3000"
+    depends_on:
+      - mongo6
     links:
-      - mongo
-  mongo:
-    profiles:
-      - dev
-    # container_name: mongo
-    image: mongo
-    volumes:
-      - ./data:/data/db
-    ports:
-      - "27018:27017"
+      - mongo6
