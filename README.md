@@ -140,7 +140,7 @@ pnpm dev || npm run dev
 ```
 
 > [!CAUTION]
-> No, MongoDB Local DB is NOT enough for development. You will need to use either a Local MongodDB Cluster, MongoDB Atlas or run Docker Container provided. [Learn why](https://docs.mongodb.com/manual/tutorial/deploy-replica-set-for-testing/)
+> No, MongoDB Local DB is NOT enough for development. You will need to use either a Local MongodDB Cluster, MongoDB Atlas or run Docker Container provided. [Learn why](https://github.com/prisma/prisma/issues/8266#issue-944237913)
 
 <p align="right">><a href="#readme-top">TOP</a><</p>
 
