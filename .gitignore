@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# WE USE PNPM!
+package-lock.json
+yarn.lock
+!/yarn.lock
+bun.lockb

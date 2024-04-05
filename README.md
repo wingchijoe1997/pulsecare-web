@@ -2,14 +2,17 @@
 
 <a name="readme-top"></a>
 
+<div align="center">
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
+[![Board Status](https://dev.azure.com/PulseCare/d55b5928-e8a7-4d31-b0c7-13bdac9ebeb2/99225186-8cd9-4f4e-bf74-83afa61c68e6/_apis/work/boardbadge/24387b5d-8911-4219-abfd-9047233756d5?columnOptions=1)](https://dev.azure.com/PulseCare/d55b5928-e8a7-4d31-b0c7-13bdac9ebeb2/_boards/board/t/99225186-8cd9-4f4e-bf74-83afa61c68e6/Stories/)
 
+</div>
 
 <!-- PROJECT LOGO -->
 <br />
@@ -18,10 +21,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">PulseCare</h3>
 
   <p align="center">
-    project_description
+    PulseCare is an app that connects patients with nurses and provides a platform for them to communicate and share information.
     <br />
     <a href="https://github.com/CC-Comp308001-Group04/pulsecare-web"><strong>Explore the docs »</strong></a>
     <br />
@@ -33,8 +36,6 @@
     <a href="https://github.com/CC-Comp308001-Group04/pulsecare-web/issues">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -54,162 +55,136 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<p align="right">><a href="#readme-top">TOP</a><</p>
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+[![Next][Next.js]][Next-url][![MongoDB][MongoDB]][MongoDB-url][![Prisma][Prisma]][Prisma-url][![Docker][Docker]][Docker-url][![Azure][Azure]][Azure-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<p align="right">><a href="#readme-top">TOP</a><</p>
 
 <!-- GETTING STARTED -->
-## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+## Getting Started
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+```sh
+npm install pnpm@latest -g
+```
+
+Docker is strongly recommended.
+
+Get MongodDB Atlas connection string:
+
+- Get Added to the project by the owner (@DavDeDev, @wingchijoe1997)
+- Go to the project and click on the "Connect" button
+- Copy the connection string
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/CC-Comp308001-Group04/pulsecare-web.git
+   git clone https://github.com/CC-Comp308001-Group04/pulsecare-web.git && cd pulsecare-web
    ```
-3. Install NPM packages
+2. Install NPM packages
    ```sh
-   npm install
+   pnpm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+3. Create a `.env.local` file from the `.env.local.template` and fill in the required information
+   ```sh
+   mv .env.local.template .env.local
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+#### With Docker
 
+Make sure Docker deamon is running.
 
+To Build and run services:
+
+```sh
+docker compose -f ./docker/docker-compose.yaml -p pulsecare-web --profile dev up --build -d -V
+```
+
+When you are done developing, you can stop and remove the containers::
+
+```sh
+docker compose -p pulsecare-web down -v
+```
+
+#### Without Docker
+
+Make sure you have MongoDB Atlas connection string.
+
+Place the connection string in the `.env.local` file:
+
+```js
+DATABASE_URL =
+  "mongodb+srv://<username>:<password>@<cluster>.ab1cde2.mongodb.net/?retryWrites=true&w=majority&appName=cluster";
+```
+
+Run the app:
+
+```sh
+pnpm dev || npm run dev
+```
+
+> [!CAUTION]
+> No, MongoDB Local DB is NOT enough for development. You will need to use either a Local MongodDB Cluster, MongoDB Atlas or run Docker Container provided. [Learn why](https://docs.mongodb.com/manual/tutorial/deploy-replica-set-for-testing/)
+
+<p align="right">><a href="#readme-top">TOP</a><</p>
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/CC-Comp308001-Group04/pulsecare-web/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<p align="right">><a href="#readme-top">TOP</a><</p>
 
 <!-- CONTACT -->
+
 ## Contact
 
-David Pietrocola - pietrocoladavid@gmail.com
+David Pietrocola - pietrocoladavid@gmail.com - [LinkedIn](https://www.linkedin.com/in/pietrocoladavid)
 
-Project Link: [https://github.com/CC-Comp308001-Group04/pulsecare-web](https://github.com/CC-Comp308001-Group04/pulsecare-web)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+<p align="right">><a href="#readme-top">TOP</a><</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
 [contributors-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/graphs/contributors
-
 [forks-shield]: https://img.shields.io/github/forks/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
 [forks-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/network/members
-
 [stars-shield]: https://img.shields.io/github/stars/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
 [stars-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/stargazers
-
 [issues-shield]: https://img.shields.io/github/issues/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
 [issues-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/issues
-
 [license-shield]: https://img.shields.io/github/license/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
-[license-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/blob/master/LICENSE.txt
-
+[license-url]: https://github.com/CC-Comp308001-Group04/pulsecare-web/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/pietrocoladavid
 [product-screenshot]: images/screenshot.png
 
 <!-- !Use this as a template to add technologies -->
+
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
+[MongoDB]: https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+[Prisma]: https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white
+[Prisma-url]: https://www.prisma.io/
+[Docker]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
+[Azure]: https://img.shields.io/badge/Microsoft_Azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white
+[Azure-url]: https://azure.microsoft.com/
