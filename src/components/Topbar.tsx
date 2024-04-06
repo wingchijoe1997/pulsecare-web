@@ -69,14 +69,14 @@ export default function Topbar() {
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
                   {routeList.map(({ href, label }: RouteProps) => (
-                    <a
+                    <Link
                       key={label}
                       href={href}
                       onClick={() => setIsOpen(false)}
                       className={buttonVariants({ variant: "ghost" })}
                     >
                       {label}
-                    </a>
+                    </Link>
                   ))}
                   {/* TODO: Implement Sign In Button */}
                   <Button
@@ -93,7 +93,7 @@ export default function Topbar() {
           {/* desktop */}
           <nav className="hidden md:flex gap-2">
             {routeList.map((route: RouteProps, i) => (
-              <a
+              <Link
                 href={route.href}
                 key={i}
                 className={`text-[17px] ${buttonVariants({
@@ -101,7 +101,7 @@ export default function Topbar() {
                 })}`}
               >
                 {route.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
