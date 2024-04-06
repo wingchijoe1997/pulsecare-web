@@ -29,11 +29,10 @@ export default function RootLayout({
       >
         <body className={`max-h-screen ${inter.className}`}>
           <Topbar />
-          <Hero />
           {children}
           <Footer />
+          <TailwindIndicator />
         </body>
-        <TailwindIndicator />
       </ThemeProvider>
     </html>
   );

@@ -16,6 +16,7 @@ import { useState } from "react";
 import { ActivityIcon, Menu } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
+import Link from "next/link";
 
 interface RouteProps {
   href: string;
@@ -40,10 +41,10 @@ export default function Topbar() {
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
           <NavigationMenuItem className="font-bold flex">
-            <a href="/" className="ml-2 font-bold text-xl flex gap-5">
+            <Link href="/" className="ml-2 font-bold text-xl flex gap-5">
               <ActivityIcon />
               PulseCare
-            </a>
+            </Link>
           </NavigationMenuItem>
 
           {/* mobile */}
@@ -55,9 +56,9 @@ export default function Topbar() {
                 <Menu
                   className="flex md:hidden h-5 w-5"
                   onClick={() => setIsOpen(true)}
-                >
-                  <span className="sr-only">Menu Icon</span>
-                </Menu>
+                />
+
+                <span className="sr-only">Menu Icon</span>
               </SheetTrigger>
 
               <SheetContent side={"left"}>
@@ -106,12 +107,14 @@ export default function Topbar() {
 
           <div className="hidden md:flex gap-2">
             {/* TODO: Implement Sign In Button */}
-            <Button
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
-              <ActivityIcon className="mr-2 w-5 h-5" />
-              Sign-In
-            </Button>
+            <Link href="/auth/login" passHref>
+              <Button
+                className={`border ${buttonVariants({ variant: "secondary" })}`}
+              >
+                <ActivityIcon className="mr-2 w-5 h-5" />
+                Sign-In
+              </Button>
+            </Link>
             <ModeToggle />
           </div>
         </NavigationMenuList>
