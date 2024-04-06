@@ -1,5 +1,3 @@
-import { Footer } from "@/components/Footer";
-import Topbar from "@/components/Topbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import { TailwindIndicator } from "@/components/ui/tailwind-indicator";
 import type { Metadata } from "next";
