@@ -10,13 +10,13 @@ WORKDIR /pulsecare-webapp
 FROM base AS deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm exec next telemetry disable
+RUN pnpm dlx prisma generate
 
 # https://docs.docker.com/build/building/multi-stage/#differences-between-legacy-builder-and-buildkit
 
 
 
 FROM deps as production-bundle
-RUN pnpm dlx prisma generate
 RUN pnpm build
 
 FROM deps as development
