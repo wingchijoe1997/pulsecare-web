@@ -1,11 +1,10 @@
+import { Footer } from "@/components/Footer";
+import Topbar from "@/components/Topbar";
+import { ThemeProvider } from "@/components/theme-provider";
+import { TailwindIndicator } from "@/components/ui/tailwind-indicator";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Topbar from "@/components/Topbar";
-import { TailwindIndicator } from "@/components/ui/tailwind-indicator";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Hero } from "@/components/Hero";
-import { Footer } from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,9 +27,7 @@ export default function RootLayout({
         disableTransitionOnChange
       >
         <body className={`max-h-screen ${inter.className}`}>
-          <Topbar />
           {children}
-          <Footer />
           <TailwindIndicator />
         </body>
       </ThemeProvider>
