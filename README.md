@@ -103,7 +103,7 @@ Get MongodDB Atlas connection string:
    ```
 3. Create a `.env.local` file from the `.env.local.template` and fill in the required information
    ```sh
-   mv .env.local.template .env.local
+   cp .env.local.template .env.local
    ```
 
 #### With Docker
