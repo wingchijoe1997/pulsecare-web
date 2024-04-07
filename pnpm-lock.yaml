@@ -11,6 +11,9 @@ dependencies:
   "@hookform/resolvers":
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.51.2)
+  "@prisma/client":
+    specifier: ^5.12.1
+    version: 5.12.1(prisma@5.12.1)
   "@radix-ui/react-avatar":
     specifier: ^1.0.4
     version: 1.0.4(@types/react-dom@18.2.24)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
@@ -44,6 +47,9 @@ dependencies:
   next-themes:
     specifier: ^0.3.0
     version: 0.3.0(react-dom@18.2.0)(react@18.2.0)
+  prisma:
+    specifier: ^5.12.1
+    version: 5.12.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -67,9 +73,6 @@ devDependencies:
   "@auth/core":
     specifier: ^0.28.2
     version: 0.28.2
-  "@prisma/client":
-    specifier: ^5.12.1
-    version: 5.12.1(prisma@5.12.1)
   "@radix-ui/react-icons":
     specifier: ^1.3.0
     version: 1.3.0(react@18.2.0)
@@ -124,9 +127,6 @@ devDependencies:
   postcss:
     specifier: ^8.4.38
     version: 8.4.38
-  prisma:
-    specifier: ^5.12.1
-    version: 5.12.1
   shell-quote:
     specifier: ^1.8.1
     version: 1.8.1
@@ -726,18 +726,21 @@ packages:
         optional: true
     dependencies:
       prisma: 5.12.1
+    dev: false
 
   /@prisma/debug@5.12.1:
     resolution:
       {
         integrity: sha512-kd/wNsR0klrv79o1ITsbWxYyh4QWuBidvxsXSParPsYSu0ircUmNk3q4ojsgNc3/81b0ozg76iastOG43tbf8A==,
       }
+    dev: false
 
   /@prisma/engines-version@5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab:
     resolution:
       {
         integrity: sha512-6yvO8s80Tym61aB4QNtYZfWVmE3pwqe807jEtzm8C5VDe7nw8O1FGX3TXUaXmWV0fQTIAfRbeL2Gwrndabp/0g==,
       }
+    dev: false
 
   /@prisma/engines@5.12.1:
     resolution:
@@ -750,6 +753,7 @@ packages:
       "@prisma/engines-version": 5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab
       "@prisma/fetch-engine": 5.12.1
       "@prisma/get-platform": 5.12.1
+    dev: false
 
   /@prisma/fetch-engine@5.12.1:
     resolution:
@@ -760,6 +764,7 @@ packages:
       "@prisma/debug": 5.12.1
       "@prisma/engines-version": 5.12.0-21.473ed3124229e22d881cb7addf559799debae1ab
       "@prisma/get-platform": 5.12.1
+    dev: false
 
   /@prisma/get-platform@5.12.1:
     resolution:
@@ -768,6 +773,7 @@ packages:
       }
     dependencies:
       "@prisma/debug": 5.12.1
+    dev: false
 
   /@radix-ui/primitive@1.0.1:
     resolution:
@@ -5651,6 +5657,7 @@ packages:
     requiresBuild: true
     dependencies:
       "@prisma/engines": 5.12.1
+    dev: false
 
   /prop-types@15.8.1:
     resolution:

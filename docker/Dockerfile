@@ -10,11 +10,9 @@ WORKDIR /pulsecare-webapp
 FROM base AS deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm exec next telemetry disable
-RUN pnpm dlx prisma generate
-
-# https://docs.docker.com/build/building/multi-stage/#differences-between-legacy-builder-and-buildkit
-
-
+# Trying to freshly install prisma client every time as suggested here: https://github.com/prisma/prisma/issues/7234#issuecomment-846606919
+RUN pnpm add prisma @prisma/client
+RUN DEBUG='*' pnpm dlx prisma generate
 
 FROM deps as production-bundle
 RUN pnpm build
