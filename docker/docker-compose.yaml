@@ -39,8 +39,6 @@ services:
       target: development
     ports:
       - "3000:3000"
-      # This port to test `pnpm run dev` from within the container
-      - "3001:3001"
     depends_on:
       - mongo6
     links:
