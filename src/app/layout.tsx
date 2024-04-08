@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,20 +21,20 @@ export default async function RootLayout({
   const session = await auth();
   return (
     // do we need SessionProvider here?
-    // <SessionProvider session={session}>
-    <html lang="en">
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <body className={`max-h-screen ${inter.className}`}>
-          {children}
-          <TailwindIndicator />
-        </body>
-      </ThemeProvider>
-    </html>
-    // </SessionProvider>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <body className={`max-h-screen ${inter.className}`}>
+            {children}
+            <TailwindIndicator />
+          </body>
+        </ThemeProvider>
+      </html>
+    </SessionProvider>
   );
 }
