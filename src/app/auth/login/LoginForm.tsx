@@ -4,12 +4,10 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import loginImage from "@/../public/login.jpeg";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,6 +18,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SocialButtons } from "@/components/ui/social-buttons";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
@@ -65,9 +64,6 @@ export function LoginForm() {
                         {...field}
                       />
                     </FormControl>
-                    {/* <FormDescription>
-                    This is your email.
-                  </FormDescription> */}
                     <FormMessage />
                   </FormItem>
                 )}
@@ -100,13 +96,11 @@ export function LoginForm() {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <Button variant="outline" className="w-full">
-                Login with Google
-              </Button>
+              <SocialButtons />
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="#" className="underline">
+              Don&apos;t have an account??{" "}
+              <Link href="/auth/register" className="underline">
                 Sign up
               </Link>
             </div>
