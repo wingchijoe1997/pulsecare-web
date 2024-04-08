@@ -19,8 +19,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SocialButtons } from "@/components/ui/social-buttons";
+import { useSearchParams } from "next/navigation";
+import { login } from "@/actions/login";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -33,6 +39,27 @@ export function LoginForm() {
 
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     console.log(values);
+    startTransition(() => {
+      login(values)
+        .then((data) => {
+          if (data && "error" in data) {
+            console.log("❌ Error in Form!");
+            form.setError("root.serverError", {
+              ...data.error,
+            });
+          }
+          // toast.success("Login Successful", {
+          //   description: "You are now logged in"
+          // })
+          console.log("🔄️ [Client] Finished Transition");
+        })
+        .catch(() => {
+          form.setError("root.serverError", {
+            type: "500",
+            message: "Server error. Please try again later.",
+          });
+        });
+    });
   }
 
   return (
@@ -92,6 +119,17 @@ export function LoginForm() {
                   </FormItem>
                 )}
               />
+              {form.formState.errors.root && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>
+                    Error {form.formState.errors.root.serverError.type}
+                  </AlertTitle>
+                  <AlertDescription>
+                    {form.formState.errors.root.serverError.message}
+                  </AlertDescription>
+                </Alert>
+              )}
 
               <Button type="submit" className="w-full">
                 Login

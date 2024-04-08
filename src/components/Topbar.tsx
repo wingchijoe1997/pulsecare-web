@@ -25,12 +25,12 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "#random",
-    label: "Dummy",
+    href: "/nurse",
+    label: "Protecte₫ Route",
   },
   {
-    href: "#random",
-    label: "Dummy2",
+    href: "/about",
+    label: "About",
   },
 ];
 

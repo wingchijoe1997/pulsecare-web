@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { ShieldEllipsis } from "lucide-react";
+import { AlertCircle, ShieldEllipsis } from "lucide-react";
 
 import {
   Form,
@@ -28,6 +28,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { register } from "@/actions/register";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
@@ -41,7 +43,28 @@ export function RegisterForm() {
     },
   });
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
-    console.log(values);
+    form.clearErrors();
+    console.log("🔄️ Logging in");
+
+    startTransition(() => {
+      register(values)
+        .then((data) => {
+          if ("error" in data) {
+            form.setError("root.serverError", {
+              ...data.error,
+            });
+          }
+          console.log("🔄️ [Client] Finished Transition");
+          console.log("data", data);
+        })
+        .catch(() => {
+          console.log("❌ Error in Form!");
+          form.setError("root.serverError", {
+            type: "500",
+            message: "Server error. Please try again later.",
+          });
+        });
+    });
   }
   return (
     <Form {...form}>
@@ -65,7 +88,7 @@ export function RegisterForm() {
                       <FormControl>
                         <Input
                           disabled={isPending}
-                          placeholder="Max"
+                          placeholder="Cheung"
                           {...field}
                         />
                       </FormControl>
@@ -82,7 +105,7 @@ export function RegisterForm() {
                       <FormControl>
                         <Input
                           disabled={isPending}
-                          placeholder="Robinson"
+                          placeholder="Yuet Tse"
                           {...field}
                         />
                       </FormControl>
@@ -156,6 +179,17 @@ export function RegisterForm() {
                   }}
                 />
               </Label>
+              {form.formState.errors.root && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertTitle>
+                    Error {form.formState.errors.root.serverError.type}
+                  </AlertTitle>
+                  <AlertDescription>
+                    {form.formState.errors.root.serverError.message}
+                  </AlertDescription>
+                </Alert>
+              )}
               <Button type="submit" className="w-full">
                 Create an account
               </Button>
