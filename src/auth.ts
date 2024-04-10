@@ -31,11 +31,6 @@ export const {
     async signIn({ user, account }) {
       console.log("signin auth callback...");
       if (account?.provider !== "credentials") return true;
-      // await connectToDB();
-
-      // const existingUser = await User.findOne({ email: user.email });
-      // // // Allow OAuth without email verification
-
       return true;
     },
     async session({ session, token, user }) {
