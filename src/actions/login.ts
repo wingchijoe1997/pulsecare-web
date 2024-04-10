@@ -55,8 +55,7 @@ export const login = async (
 
   const { email, password } = validateFields.data;
   const existingUser = await db.user.findUnique({ where: { email } });
-
-  if (!existingUser) {
+  if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: { type: "403", message: "Invalid Credentials" } };
   }
   // TODO: hash password
