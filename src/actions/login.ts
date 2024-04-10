@@ -46,6 +46,7 @@ interface SuccessOutput {
 export const login = async (
   values: z.infer<typeof LoginSchema>,
 ): Promise<ErrorOutput | SuccessOutput> => {
+  await db.$connect().then(() => console.log("Connected to DB"));
   const validateFields = LoginSchema.safeParse(values);
   if (!validateFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
@@ -62,6 +63,7 @@ export const login = async (
   if (!passwordMatch) {
     return { error: { type: "403", message: "Invalid Credentials" } };
   }
+  console.log(DEFAULT_LOGIN_REDIRECT);
 
   try {
     // TODO: implement passinf redirecting URL from client
@@ -69,7 +71,7 @@ export const login = async (
       email,
       password,
 
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: "/loginlogin",
     });
     // await signIn("passkey")
     return { res: { type: "200", message: "Success" } };

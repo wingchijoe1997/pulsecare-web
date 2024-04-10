@@ -21,19 +21,19 @@ export default async function RootLayout({
   const session = await auth();
   return (
     // do we need SessionProvider here?
-    <SessionProvider session={session}>
+    <SessionProvider session={session} baseUrl="localhost">
       <html lang="en">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <body className={`max-h-screen ${inter.className}`}>
+        <body className={`max-h-screen ${inter.className}`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
             <TailwindIndicator />
-          </body>
-        </ThemeProvider>
+          </ThemeProvider>
+        </body>
       </html>
     </SessionProvider>
   );

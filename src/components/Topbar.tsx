@@ -13,10 +13,19 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
-import { ActivityIcon, Menu } from "lucide-react";
+import { ActivityIcon, Badge, Menu } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { logout } from "@/actions/logout";
 
 interface RouteProps {
   href: string;
@@ -36,6 +45,11 @@ const routeList: RouteProps[] = [
 
 export default function Topbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const user = useCurrentUser();
+  // create a function to handle the logout as server action
+  const handleLogout = async () => {
+    logout().then(() => toast.success("You have been logged out"));
+  };
   return (
     <header className="fixed border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
       <NavigationMenu className="mx-auto">
@@ -107,14 +121,52 @@ export default function Topbar() {
 
           <div className="hidden md:flex gap-2">
             {/* TODO: Implement Sign In Button */}
-            <Link href="/auth/login" passHref>
-              <Button
-                className={`border ${buttonVariants({ variant: "secondary" })}`}
-              >
-                <ActivityIcon className="mr-2 w-5 h-5" />
-                Sign-In
-              </Button>
-            </Link>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <div className="flex gap-4 items-center">
+                    <p className="text-muted-foreground">Hello, {user.name}</p>
+                    {/* <UserAvatar
+                    user={{ name: user.name || undefined, image: user.image || undefined }}
+                    className="h-8 w-8" /> */}
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      {/* {session.data && <p className="font-medium">{JSON.stringify(session.data.user)}</p>} */}
+                      <p className="font-medium">{user.name}</p>
+                      {user.id}
+                      <p>
+                        <Badge>{user.role}</Badge>
+                      </p>
+
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onSelect={handleLogout}
+                  >
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/auth/login" passHref>
+                <Button
+                  className={`border ${buttonVariants({ variant: "secondary" })}`}
+                >
+                  <ActivityIcon className="mr-2 w-5 h-5" />
+                  Sign-In
+                </Button>
+              </Link>
+            )}
+
             <ModeToggle />
           </div>
         </NavigationMenuList>

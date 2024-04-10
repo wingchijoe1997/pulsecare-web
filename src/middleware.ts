@@ -16,6 +16,7 @@ export default middleware((req) => {
 
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
+  console.log("Is logged in?", isLoggedIn, nextUrl.pathname);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
@@ -44,6 +45,7 @@ export default middleware((req) => {
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
+    console.log("inside middleware encoded call back", encodedCallbackUrl);
     return Response.redirect(
       new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
     );
