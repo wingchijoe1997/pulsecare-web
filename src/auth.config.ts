@@ -41,17 +41,6 @@ export default {
       },
     }),
     Google({
-      profile: async (profile: GoogleProfile) => {
-        return {
-          // ...profile,
-          id: profile.sub,
-          firstName: profile.given_name,
-          lastName: profile.family_name,
-          email: profile.email,
-          image: profile.picture,
-          isNurse: false,
-        };
-      },
       // https://authjs.dev/reference/core/errors/#oauthaccountnotlinked
       allowDangerousEmailAccountLinking: true,
     }),
