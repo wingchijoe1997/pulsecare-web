@@ -17,6 +17,7 @@ interface SuccessOutput {
 
 export const register = async (
   values: z.infer<typeof RegisterSchema>,
+  callbackUrl?: string | null,
 ): Promise<ErrorOutput | SuccessOutput> => {
   console.log("🔄️  start Register action..");
   // await db.$connect().then(() => console.log("Connected to DB"));
@@ -39,7 +40,7 @@ export const register = async (
   await signIn("credentials", {
     ...newUser,
     redirect: true,
-    redirectTo: "/registerregister",
+    redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
   });
   return { res: { type: "200", message: "Success" } };
 };

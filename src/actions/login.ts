@@ -45,6 +45,7 @@ interface SuccessOutput {
 }
 export const login = async (
   values: z.infer<typeof LoginSchema>,
+  callbackUrl?: string | null,
 ): Promise<ErrorOutput | SuccessOutput> => {
   // await db.$connect().then(() => console.log("Connected to DB"));
   const validateFields = LoginSchema.safeParse(values);
@@ -70,7 +71,7 @@ export const login = async (
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
     // await signIn("passkey")
     return { res: { type: "200", message: "Success" } };
