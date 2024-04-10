@@ -15,22 +15,21 @@ export const {
     error: "/auth/error",
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      console.log(
-        "🎵🎵❌ insider redirect callback...",
-        url,
-        " and vase URL: ",
-        baseUrl,
-      );
-      // Allows relative callback URLs
-      // if (url.startsWith("/")) return `${baseUrl}${url}`
-      // // Allows callback URLs on the same origin
-      // else if (new URL(url).origin === baseUrl) return url
-      return baseUrl;
-    },
+    // async redirect({ url, baseUrl }) {
+    //   console.log(
+    //     "🎵🎵❌ insider redirect callback...",
+    //     url,
+    //     " and vase URL: ",
+    //     baseUrl,
+    //   );
+    //   // Allows relative callback URLs
+    //   // if (url.startsWith("/")) return `${baseUrl}${url}`
+    //   // // Allows callback URLs on the same origin
+    //   // else if (new URL(url).origin === baseUrl) return url
+    //   return baseUrl;
+    // },
     async signIn({ user, account }) {
       console.log("signin auth callback...");
-      redirect;
       if (account?.provider !== "credentials") return true;
       // await connectToDB();
 

@@ -70,8 +70,7 @@ export const login = async (
     await signIn("credentials", {
       email,
       password,
-
-      redirectTo: "/loginlogin",
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
     // await signIn("passkey")
     return { res: { type: "200", message: "Success" } };

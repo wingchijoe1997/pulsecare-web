@@ -39,7 +39,7 @@ export const register = async (
   console.log("🔄️ after creting user", DEFAULT_LOGIN_REDIRECT);
   await signIn("credentials", {
     ...newUser,
-
+    redirect: true,
     redirectTo: "/registerregister",
   });
   return { res: { type: "200", message: "Success" } };
