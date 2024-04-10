@@ -3,7 +3,6 @@
 import db from "@/lib/prisma-client";
 import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";
 import { RegisterSchema } from "@/schemas/register.schema";
-import { User } from "next-auth";
 import { signIn } from "@/auth";
 import { z } from "zod";
 
@@ -20,7 +19,7 @@ export const register = async (
   values: z.infer<typeof RegisterSchema>,
 ): Promise<ErrorOutput | SuccessOutput> => {
   console.log("🔄️  start Register action..");
-  await db.$connect().then(() => console.log("Connected to DB"));
+  // await db.$connect().then(() => console.log("Connected to DB"));
   const validateFields = RegisterSchema.safeParse(values);
   if (!validateFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };

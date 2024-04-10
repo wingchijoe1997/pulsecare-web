@@ -46,7 +46,7 @@ interface SuccessOutput {
 export const login = async (
   values: z.infer<typeof LoginSchema>,
 ): Promise<ErrorOutput | SuccessOutput> => {
-  await db.$connect().then(() => console.log("Connected to DB"));
+  // await db.$connect().then(() => console.log("Connected to DB"));
   const validateFields = LoginSchema.safeParse(values);
   if (!validateFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
