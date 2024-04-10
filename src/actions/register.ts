@@ -21,25 +21,31 @@ export const register = async (
 ): Promise<ErrorOutput | SuccessOutput> => {
   console.log("🔄️  start Register action..");
   // await db.$connect().then(() => console.log("Connected to DB"));
-  const validateFields = RegisterSchema.safeParse(values);
-  if (!validateFields.success) {
+  const validatedFields = RegisterSchema.safeParse(values);
+  if (!validatedFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
   }
+  const { email, password, firstName, lastName } = validatedFields.data;
+  const existingUser = await db.user.findUnique({
+    where: { email },
+  });
 
-  // const existingUser = await db.user.findFirst({
-  //   where: { email: values.email },
-  // });
-
-  // if (existingUser) {
-  //   return { error: { type: "400", message: "Email already in use" } };
-  // }
+  if (existingUser) {
+    return { error: { type: "400", message: "Email already in use" } };
+  }
   //TODO: hash password!
   console.log("🔄️ before creting user");
-  const newUser = await db.user.create({ data: values });
+  const newUser = await db.user.create({
+    data: {
+      email,
+      password,
+      name: `${firstName} ${lastName}`,
+    },
+  });
   console.log("🔄️ after creting user", DEFAULT_LOGIN_REDIRECT);
   await signIn("credentials", {
-    ...newUser,
-    redirect: true,
+    email: newUser.email,
+    password: values.password,
     redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
   });
   return { res: { type: "200", message: "Success" } };

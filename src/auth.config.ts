@@ -35,7 +35,6 @@ export default {
           if (!user) return null;
 
           if (password === user.password) return user;
-          return user;
         }
 
         return null;

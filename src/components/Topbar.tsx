@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 
-import { ActivityIcon, Badge, Menu } from "lucide-react";
+import { ActivityIcon, Menu } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import Link from "next/link";
@@ -26,6 +26,8 @@ import {
 } from "./ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { logout } from "@/actions/logout";
+import { UserAvatar } from "./ui/user-avatar";
+import { Badge } from "./ui/badge";
 
 interface RouteProps {
   href: string;
@@ -126,9 +128,13 @@ export default function Topbar() {
                 <DropdownMenuTrigger>
                   <div className="flex gap-4 items-center">
                     <p className="text-muted-foreground">Hello, {user.name}</p>
-                    {/* <UserAvatar
-                    user={{ name: user.name || undefined, image: user.image || undefined }}
-                    className="h-8 w-8" /> */}
+                    <UserAvatar
+                      user={{
+                        name: user.name || undefined,
+                        image: user.image || undefined,
+                      }}
+                      className="h-8 w-8"
+                    />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
