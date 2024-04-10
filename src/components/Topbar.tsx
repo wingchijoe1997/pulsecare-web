@@ -48,7 +48,7 @@ export default function Topbar() {
   const user = useCurrentUser();
   // create a function to handle the logout as server action
   const handleLogout = async () => {
-    logout().then(() => toast.success("You have been logged out"));
+    logout();
   };
   return (
     <header className="fixed border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
