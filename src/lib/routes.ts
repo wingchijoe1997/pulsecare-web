@@ -29,7 +29,7 @@ export const apiAuthPrefix: string = "/api/auth";
  * The default redirect path after logging in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT: string = "/";
+export const DEFAULT_LOGIN_REDIRECT: string = "/dashboard";
 
 /**
  * The routes for nurse
