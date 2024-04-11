@@ -1,12 +1,9 @@
-import { Footer } from "@/components/Footer";
-
 export default function Home() {
   return (
     <>
-      <Footer />
-      <Footer />
-      <Footer />
-      <div>ciaoooo</div>
+      <div className="h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-bold">Nurse Dashboard</h1>
+      </div>
     </>
   );
 }
