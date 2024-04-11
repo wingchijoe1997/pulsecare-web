@@ -1,4 +1,4 @@
-import Google, { GoogleProfile } from "@auth/core/providers/google";
+import Google from "@auth/core/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
 import type { NextAuthConfig } from "next-auth";
