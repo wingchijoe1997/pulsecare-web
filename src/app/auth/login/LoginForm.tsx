@@ -38,12 +38,10 @@ export function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
-    console.log(values);
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
           if (data && "error" in data) {
-            console.log("❌ Error in Form!");
             form.setError("root.serverError", {
               ...data.error,
             });
@@ -51,7 +49,6 @@ export function LoginForm() {
           // toast.success("Login Successful", {
           //   description: "You are now logged in"
           // })
-          console.log("🔄️ [Client] Finished Transition");
         })
         .catch(() => {
           form.setError("root.serverError", {

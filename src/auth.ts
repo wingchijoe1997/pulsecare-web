@@ -33,8 +33,9 @@ export const {
     error: "/auth/error",
     // newUser: '/profile/onboarding'
   },
+  trustHost: true,
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ account }) {
       // console.log("signin auth callback...");
 
       if (account?.provider !== "credentials") return true;
@@ -44,11 +45,11 @@ export const {
     //   return url;
     // },
     // README: we decided to use JWT as strategy, hence we need to define it
-    async jwt({ token, account, profile, user, trigger }) {
+    async jwt({ token, user }) {
       if (user) token.isNurse = user.isNurse;
       return token;
     },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user.role = token.isNurse ? "nurse" : "patient";
       return session;
     },

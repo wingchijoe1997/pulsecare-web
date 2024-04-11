@@ -12,7 +12,7 @@ export default {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         // // // TODO: use graphql to authenticate
         // console.log(req)
 
