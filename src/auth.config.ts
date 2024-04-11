@@ -24,8 +24,6 @@ export default {
         if (validatedFields) {
           const { email, password } = validatedFields.data;
 
-          // https://mongoosejs.com/docs/nextjs.html#:~:text=While%20you%20can%20import%20Mongoose,uses%20to%20connect%20to%20MongoDB.
-          // const user = await User.findOne({ email });
           const user = await db.user.findUnique({
             where: {
               email,
