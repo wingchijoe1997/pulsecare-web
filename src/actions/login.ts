@@ -47,7 +47,6 @@ export const login = async (
   values: z.infer<typeof LoginSchema>,
   callbackUrl?: string | null,
 ): Promise<ErrorOutput | SuccessOutput> => {
-  // await db.$connect().then(() => console.log("Connected to DB"));
   const validateFields = LoginSchema.safeParse(values);
   if (!validateFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
@@ -63,7 +62,6 @@ export const login = async (
   if (!passwordMatch) {
     return { error: { type: "403", message: "Invalid Credentials" } };
   }
-  console.log(DEFAULT_LOGIN_REDIRECT);
 
   try {
     // TODO: implement passinf redirecting URL from client

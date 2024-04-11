@@ -19,8 +19,6 @@ export const register = async (
   values: z.infer<typeof RegisterSchema>,
   callbackUrl?: string | null,
 ): Promise<ErrorOutput | SuccessOutput> => {
-  console.log("🔄️  start Register action..");
-  // await db.$connect().then(() => console.log("Connected to DB"));
   const validatedFields = RegisterSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
@@ -35,7 +33,6 @@ export const register = async (
     return { error: { type: "400", message: "Email already in use" } };
   }
   //TODO: hash password!
-  console.log("🔄️ before creting user");
   const newUser = await db.user.create({
     data: {
       email,
@@ -44,7 +41,6 @@ export const register = async (
       isNurse,
     },
   });
-  console.log("🔄️ after creting user", DEFAULT_LOGIN_REDIRECT);
   await signIn("credentials", {
     email: newUser.email,
     password: values.password,
