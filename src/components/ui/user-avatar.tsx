@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 
 export function UserAvatar({
@@ -10,6 +10,7 @@ export function UserAvatar({
 }) {
   return (
     <Avatar {...props}>
+      <AvatarImage src={user.image} alt={user.name} />
       <AvatarFallback>
         <span className="sr-only">{user.name}</span>
         <User className="h-4 w-4" />

@@ -24,10 +24,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { logout } from "@/actions/logout";
 import { UserAvatar } from "./ui/user-avatar";
 import { Badge } from "./ui/badge";
+import { Session } from "next-auth";
 
 interface RouteProps {
   href: string;
@@ -45,9 +45,13 @@ const routeList: RouteProps[] = [
   },
 ];
 
-export default function Topbar() {
+export default function Topbar({
+  session,
+}: Readonly<{
+  session: Session | null;
+}>) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const user = useCurrentUser();
+  const user = session?.user;
   // create a function to handle the logout as server action
   const handleLogout = async () => {
     logout();
@@ -172,6 +176,7 @@ export default function Topbar() {
                 </Button>
               </Link>
             )}
+            {/* <AvatarDropDown/> */}
 
             <ModeToggle />
           </div>
