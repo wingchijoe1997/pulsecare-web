@@ -6,17 +6,12 @@ import {
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
 } from "@/lib/routes";
+import { auth } from "./auth";
 const { auth: middleware } = NextAuth(authConfig);
 
-export default middleware((req) => {
-  // FIXME: Get the role HERE
-  // README: https://github.com/nextauthjs/next-auth/issues/9836
-  // get session role
-  // if role is nurse, redirect to /nurse
-
+export default middleware(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
-  console.log("Is logged in?", isLoggedIn, nextUrl.pathname);
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
@@ -25,12 +20,21 @@ export default middleware((req) => {
   if (isApiAuthRoute) {
     return;
   }
+  const session = await auth();
+  const user1 = session?.user;
+  console.log("user role in session in middleware", user1?.role);
+
+  const user2 = req.auth?.user;
+  console.log("user role in req.auth in middleware", user2?.role);
 
   // When the user visits the auth route
   if (isAuthRoute) {
     // If it's already logged in we redirect them
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      const role = session?.user.role;
+      return Response.redirect(
+        new URL(role ? "/dashboard" : DEFAULT_LOGIN_REDIRECT, nextUrl.origin),
+      );
     }
     // Otherwise remain in the login page
     return;
@@ -45,7 +49,6 @@ export default middleware((req) => {
     }
 
     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-    console.log("inside middleware encoded call back", encodedCallbackUrl);
     return Response.redirect(
       new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
     );

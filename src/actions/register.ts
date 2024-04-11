@@ -25,7 +25,8 @@ export const register = async (
   if (!validatedFields.success) {
     return { error: { type: "403", message: "Invalid fields" } };
   }
-  const { email, password, firstName, lastName } = validatedFields.data;
+  const { email, password, firstName, lastName, isNurse } =
+    validatedFields.data;
   const existingUser = await db.user.findUnique({
     where: { email },
   });
@@ -40,6 +41,7 @@ export const register = async (
       email,
       password,
       name: `${firstName} ${lastName}`,
+      isNurse,
     },
   });
   console.log("🔄️ after creting user", DEFAULT_LOGIN_REDIRECT);

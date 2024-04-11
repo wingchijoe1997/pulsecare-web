@@ -1,7 +1,7 @@
-import Google from "@auth/core/providers/google";
+import Google, { GoogleProfile } from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
-import type { NextAuthConfig } from "next-auth";
+import type { AuthConfig } from "@auth/core";
 import { LoginSchema } from "@/schemas/login.schema";
 import db from "@/lib/prisma-client";
 
@@ -39,8 +39,17 @@ export default {
       },
     }),
     Google({
+      profile: async (profile: GoogleProfile) => {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          image: profile.picture,
+          email: profile.email,
+          isNurse: profile.isNurse ?? false,
+        };
+      },
       // https://authjs.dev/reference/core/errors/#oauthaccountnotlinked
       allowDangerousEmailAccountLinking: true,
     }),
   ],
-} satisfies NextAuthConfig;
+} satisfies AuthConfig;

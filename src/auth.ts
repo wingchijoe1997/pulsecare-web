@@ -1,8 +1,26 @@
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-
+import { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import db from "./lib/prisma-client";
+import "next-auth/jwt";
+
+declare module "next-auth" {
+  interface User {
+    isNurse: boolean;
+  }
+  interface Session {
+    user: {
+      role: string;
+    };
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    isNurse: boolean;
+  }
+}
 
 export const {
   handlers: { GET, POST },
@@ -13,53 +31,29 @@ export const {
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
+    // newUser: '/profile/onboarding'
   },
   callbacks: {
-    // async redirect({ url, baseUrl }) {
-    //   console.log(
-    //     "🎵🎵❌ insider redirect callback...",
-    //     url,
-    //     " and vase URL: ",
-    //     baseUrl,
-    //   );
-    //   // Allows relative callback URLs
-    //   // if (url.startsWith("/")) return `${baseUrl}${url}`
-    //   // // Allows callback URLs on the same origin
-    //   // else if (new URL(url).origin === baseUrl) return url
-    //   return baseUrl;
-    // },
     async signIn({ user, account }) {
       console.log("signin auth callback...");
+
       if (account?.provider !== "credentials") return true;
       return true;
     },
-    async session({ session, token, user }) {
-      // await connectToDB();
-
-      // if (token.sub && session.user) {
-      //   session.user.id = token.sub;
-      // }
-
-      // if (token.role && session.user) {
-      //   session.user.role = token.role
-      // }
-      // // Send properties to the client, like an access_token and user id from a provider.
-
-      return session;
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
     },
     // README: we decided to use JWT as strategy, hence we need to define it
-    async jwt({ token, account, profile }) {
-      // await connectToDB();
-      // if (!token.sub) return token;
-      // const existingUser = await User.findById(token.sub)
-      // if (!existingUser) return token;
-
-      // token.role = existingUser.role
-
+    async jwt({ token, account, profile, user, trigger }) {
+      if (user) token.isNurse = user.isNurse;
       return token;
     },
+    async session({ session, token, user }) {
+      session.user.role = token.isNurse ? "nurse" : "patient";
+      return session;
+    },
   },
-  adapter: PrismaAdapter(db),
+  adapter: PrismaAdapter(db) as Adapter,
   session: { strategy: "jwt" },
   ...authConfig,
 });
