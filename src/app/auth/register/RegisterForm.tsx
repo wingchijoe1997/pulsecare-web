@@ -30,8 +30,11 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { register } from "@/actions/register";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useSearchParams } from "next/navigation";
 
 export function RegisterForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -46,7 +49,7 @@ export function RegisterForm() {
     form.clearErrors();
 
     startTransition(() => {
-      register(values)
+      register(values, callbackUrl)
         .then((data) => {
           if (data && "error" in data) {
             form.setError("root.serverError", {

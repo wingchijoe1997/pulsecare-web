@@ -40,7 +40,7 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof LoginSchema>) {
     console.log(values);
     startTransition(() => {
-      login(values)
+      login(values, callbackUrl)
         .then((data) => {
           if (data && "error" in data) {
             console.log("❌ Error in Form!");

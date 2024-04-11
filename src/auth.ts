@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { type DefaultSession } from "next-auth";
 import authConfig from "./auth.config";
 import { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -12,7 +12,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       role: string;
-    };
+    } & DefaultSession["user"];
   }
 }
 
@@ -35,14 +35,14 @@ export const {
   },
   callbacks: {
     async signIn({ user, account }) {
-      console.log("signin auth callback...");
+      // console.log("signin auth callback...");
 
       if (account?.provider !== "credentials") return true;
       return true;
     },
-    async redirect({ url, baseUrl }) {
-      return baseUrl;
-    },
+    // async redirect({ url, baseUrl }) {
+    //   return url;
+    // },
     // README: we decided to use JWT as strategy, hence we need to define it
     async jwt({ token, account, profile, user, trigger }) {
       if (user) token.isNurse = user.isNurse;
@@ -55,5 +55,6 @@ export const {
   },
   adapter: PrismaAdapter(db) as Adapter,
   session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
   ...authConfig,
 });
