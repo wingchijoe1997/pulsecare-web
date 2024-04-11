@@ -1,6 +1,6 @@
 import Google, { GoogleProfile } from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
-
+import bcrypt from "bcryptjs";
 import type { AuthConfig } from "@auth/core";
 import { LoginSchema } from "@/schemas/login.schema";
 import db from "@/lib/prisma-client";
@@ -13,7 +13,6 @@ export default {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        console.log("=========AUTHORIZE==========");
         // // // TODO: use graphql to authenticate
         // console.log(req)
 
@@ -30,9 +29,18 @@ export default {
             },
           });
 
-          if (!user) return null;
+          if (!user || !user.password) return null;
 
-          if (password === user.password) return user;
+          const passwordMatch = await bcrypt.compare(password, user.password);
+
+          if (passwordMatch) {
+            return user;
+            // return {
+            //  ...user,
+            //  // Don't pass password to the client
+            //  password: undefined,
+            // };
+          }
         }
 
         return null;

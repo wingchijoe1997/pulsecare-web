@@ -7,35 +7,6 @@ import { signIn } from "@/auth";
 import { z } from "zod";
 import { AuthError } from "next-auth";
 
-// FIXME: this works dev environment, but not in production because mongoose can't run on edge.
-// export const login = async (values: z.infer<typeof LoginSchema>) => {
-//   console.log("🔄️  Logging in");
-//   const validateFields = LoginSchema.safeParse(values);
-//   if (!validateFields.success) {
-//     return { error: { type: '403', message: 'Invalid fields' } }
-//   }
-
-//   const { email, password } = validateFields.data;
-
-//   try {
-//     // Credentials can be checked on the edge, but we can't use mongoose on the edge!!!
-//     await signIn("credentials", {
-//       email,
-//       password,
-//       redirectTo:DEFAULT_LOGIN_REDIRECT,
-//     })
-//   } catch (error) {
-//     if (error instanceof AuthError) {
-//       switch (error.type) {
-//         case "CredentialsSignin":
-//           return { error: { type: '403', message: 'Invalid credentials' } }
-//         default:
-//           return { error: { type: '500', message: 'Something went wrong!' } }
-//       }
-//     }
-
-//   }
-// };
 interface ErrorOutput {
   error: { type: string; message: string };
 }
@@ -55,11 +26,6 @@ export const login = async (
   const { email, password } = validateFields.data;
   const existingUser = await db.user.findUnique({ where: { email } });
   if (!existingUser || !existingUser.email || !existingUser.password) {
-    return { error: { type: "403", message: "Invalid Credentials" } };
-  }
-  // TODO: hash password
-  const passwordMatch: boolean = existingUser.password === password;
-  if (!passwordMatch) {
     return { error: { type: "403", message: "Invalid Credentials" } };
   }
 
@@ -83,20 +49,4 @@ export const login = async (
     }
     throw error;
   }
-
-  // await signIn("credentials", { user: JSON.stringify(existingUser), redirectTo: DEFAULT_LOGIN_REDIRECT }).catch(
-  //   (error) => {
-  //     if (error instanceof AuthError) {
-  //       switch (error.type) {
-  //         case "CredentialsSignin":
-  //           return { error: { type: '403', message: 'Invalid credentials' } }
-  //         default:
-  //           return { error: { type: '500', message: 'Something went wrong, try again later.' } }
-  //       }
-  //     }
-
-  //     return { error: { type: '500', message: 'Something went wrong, try again later.' } }
-
-  //   }
-  // )
 };

@@ -5,6 +5,7 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";
 import { RegisterSchema } from "@/schemas/register.schema";
 import { signIn } from "@/auth";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 
 // TODO: check how to redirect and authorize from here
 interface ErrorOutput {
@@ -33,10 +34,12 @@ export const register = async (
     return { error: { type: "400", message: "Email already in use" } };
   }
   //TODO: hash password!
+  const hashedPassword = await bcrypt.hash(password, 10);
+
   const newUser = await db.user.create({
     data: {
       email,
-      password,
+      password: hashedPassword,
       name: `${firstName} ${lastName}`,
       isNurse,
     },
