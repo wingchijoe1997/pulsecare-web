@@ -44,21 +44,17 @@ export function RegisterForm() {
   });
   async function onSubmit(values: z.infer<typeof RegisterSchema>) {
     form.clearErrors();
-    console.log("🔄️ Logging in");
 
     startTransition(() => {
       register(values)
         .then((data) => {
-          if ("error" in data) {
+          if (data && "error" in data) {
             form.setError("root.serverError", {
               ...data.error,
             });
           }
-          console.log("🔄️ [Client] Finished Transition");
-          console.log("data", data);
         })
         .catch(() => {
-          console.log("❌ Error in Form!");
           form.setError("root.serverError", {
             type: "500",
             message: "Server error. Please try again later.",
