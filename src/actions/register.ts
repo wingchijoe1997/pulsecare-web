@@ -41,7 +41,7 @@ export const register = async (
       email,
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
-      isNurse,
+      role: isNurse ? "nurse" : "patient",
     },
   });
   await signIn("credentials", {

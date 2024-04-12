@@ -53,7 +53,7 @@ export default {
           name: profile.name,
           image: profile.picture,
           email: profile.email,
-          isNurse: profile.isNurse ?? false,
+          role: profile.role ?? "patient",
         };
       },
       // https://authjs.dev/reference/core/errors/#oauthaccountnotlinked

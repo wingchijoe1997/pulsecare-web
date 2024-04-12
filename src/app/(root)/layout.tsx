@@ -1,6 +1,3 @@
-import { auth } from "@/auth";
-import { Footer } from "@/components/Footer";
-import Topbar from "@/components/Topbar";
 import type { Metadata } from "next";
 
 // TODO: Chance it
@@ -14,5 +11,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return children;
 }

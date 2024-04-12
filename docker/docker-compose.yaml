@@ -1,8 +1,10 @@
 version: "3.1"
+name: pulsecare-webapp
 services:
   mongo6:
+    container_name: MongoDB_Cluster
     profiles:
-      - dev
+      - local
     build:
       context: ./mongodb_rs
       args:
@@ -20,6 +22,7 @@ services:
     #   - pulsecare-net
 
   web_prod:
+    container_name: Pulsecare_Webapp-prod
     profiles:
       - prod
     restart: always
@@ -40,8 +43,9 @@ services:
       - "3000:3000"
 
   web_dev:
+    container_name: Pulsecare_Webapp-dev
     profiles:
-      - dev
+      - local
     restart: always
     environment:
       # README: https://github.com/prisma/prisma/discussions/23790#discussioncomment-9060992

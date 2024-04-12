@@ -3,6 +3,7 @@ import { TailwindIndicator } from "@/components/ui/tailwind-indicator";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader showSpinner={false} />
           {children}
           <TailwindIndicator />
         </ThemeProvider>
