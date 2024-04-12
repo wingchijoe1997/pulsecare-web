@@ -13,7 +13,7 @@ variables:
   DOCKER_BUILDKIT: 1
 
 stages:
-  - stage: Build
+  - stage: Build_try
     displayName: Build image
     jobs:
       - job: Build
@@ -38,8 +38,9 @@ stages:
               command: "build"
               Dockerfile: "docker/Dockerfile"
               buildContext: "."
+
               tags: "$(tag)"
-              arguments: "--target=production-bundle"
+              arguments: "--target=production-bundle --build-arg DATABASE_URL=${env:DATABASE_URL} --build-arg AUTH_URL=${env:AUTH_URL} --build-arg AUTH_SECRET=${env:AUTH_SECRET}"
           - task: Docker@2
             displayName: Push an image
             inputs:

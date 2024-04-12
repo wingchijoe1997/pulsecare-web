@@ -7,6 +7,10 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN corepack enable
 COPY . /pulsecare-webapp
 WORKDIR /pulsecare-webapp
+# Args from .env file 
+ARG DATABASE_URL
+ARG AUTH_URL
+ARG AUTH_SECRET
 
 FROM base AS deps
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
@@ -21,6 +25,9 @@ CMD ["pnpm", "dev"]
 
 
 FROM deps as production-bundle
+ENV DATABASE_URL=$DATABASE_URL
+ENV AUTH_URL=$AUTH_URL
+ENV AUTH_SECRET=$AUTH_SECRET
 RUN pnpm build
 
 FROM production-bundle as production
