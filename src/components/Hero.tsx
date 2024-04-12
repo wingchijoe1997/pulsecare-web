@@ -1,6 +1,7 @@
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { HeroCards } from "./HeroCards";
 import { Button, buttonVariants } from "./ui/button";
+import Link from "next/link";
 
 export const Hero = () => {
   return (
@@ -30,9 +31,11 @@ export const Hero = () => {
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
-
-          <a
+          {/* TODO: Implement a dialog to ask "are you a nurse?" or "are you a patient?" */}
+          <Link href="/auth/login">
+            <Button className="w-full md:w-1/3">Get Started</Button>
+          </Link>
+          <Link
             href="https://github.com/CC-Comp308001-Group04/pulsecare-web"
             target="_blank"
             className={`w-full md:w-1/3 ${buttonVariants({
@@ -41,7 +44,7 @@ export const Hero = () => {
           >
             Github Repository
             <GitHubLogoIcon className="ml-2 w-5 h-5" />
-          </a>
+          </Link>
         </div>
       </div>
 

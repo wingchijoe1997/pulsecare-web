@@ -1,73 +1,82 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-
-  slug     String    @unique
-
-  title    String
-
-  body     String
-
-
-  authorId String    @db.ObjectId
-
-  comments Comment[]
-
+generator client {
+  provider = "prisma-client-js"
 }
-
 
 model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?         @unique
+  emailVerified DateTime?
+  isNurse       Boolean         @default(false)
+  password      String?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  // Optional for WebAuthn support
+  Authenticator Authenticator[]
 
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-
-  email   String   @unique
-
-  name    String?
-
-  address Address?
-
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
-model Comment {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  comment String
-
-  post    Post   @relation(fields: [postId], references: [id])
-
-  postId  String @db.ObjectId
-
+  @@unique([provider, providerAccountId])
 }
 
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-// Address is an embedded document
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
-type Address {
+model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String
+  expires    DateTime
 
-  street String
+  @@unique([identifier, token])
+}
 
-  city   String
+// Optional for WebAuthn support
+model Authenticator {
+  id                   String  @id @default(auto()) @map("_id") @db.ObjectId
+  credentialID         String  @unique
+  userId               String  @db.ObjectId
+  providerAccountId    String
+  credentialPublicKey  String
+  counter              Int
+  credentialDeviceType String
+  credentialBackedUp   Boolean
+  transports           String?
 
-  state  String
-
-  zip    String
-
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

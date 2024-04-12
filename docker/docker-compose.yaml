@@ -8,6 +8,7 @@ services:
       args:
         MONGO_VERSION: 6
     environment:
+      # https://github.com/prisma/prisma/issues/11925
       MONGO_REPLICA_HOST: 127.0.0.1
       MONGO_REPLICA_PORT: 27018
       # Use "mongo" instead of "mongosh" before v5.0
@@ -15,6 +16,9 @@ services:
     ports:
       - "27018:27018"
     restart: always
+    # networks:
+    #   - pulsecare-net
+
   web_prod:
     profiles:
       - prod
@@ -30,7 +34,8 @@ services:
       - dev
     restart: always
     environment:
-      - MONGODB_URL=mongodb://localhost:27018/PulseCare
+      # README: https://github.com/prisma/prisma/discussions/23790#discussioncomment-9060992
+      - DATABASE_URL=mongodb://mongo6:27018/pulsecare-web?replicaSet=rs0&retryWrites=true&w=majority&directConnection=true
       # For WSL: https://www.reddit.com/r/nextjs/comments/1638ec6/comment/jy1h8ys/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
       - WATCHPACK_POLLING=true
     build:
@@ -43,6 +48,8 @@ services:
       - mongo6
     links:
       - mongo6
+    # networks:
+    #   - pulsecare-net
     # This is only for hot reload in development
     volumes:
       - ../:/pulsecare-webapp

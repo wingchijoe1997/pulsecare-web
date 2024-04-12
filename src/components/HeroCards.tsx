@@ -92,7 +92,7 @@ export const HeroCards = () => {
               </svg>
             </a> */}
 
-            <a
+            <Link
               href="https://www.linkedin.com/in/pietrocoladavid/"
               target="_blank"
               className={buttonVariants({
@@ -102,7 +102,7 @@ export const HeroCards = () => {
             >
               <span className="sr-only">Linkedin icon</span>
               <Linkedin size="20" />
-            </a>
+            </Link>
           </div>
         </CardFooter>
       </Card>
