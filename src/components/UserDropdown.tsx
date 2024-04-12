@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { UserAvatar } from "./ui/user-avatar";
-import { capitalize } from "@/lib/utils";
 
 export default function UserDropdown({
   user,
@@ -39,9 +38,14 @@ export default function UserDropdown({
             {/* {session.data && <p className="font-medium">{JSON.stringify(session.data.user)}</p>} */}
             <p className="font-medium">{user.name}</p>
             {user.id}
-            <div>
-              <Badge>{capitalize(user.role)}</Badge>
-            </div>
+            <p>
+              <Badge>
+                {
+                  user.role
+                  // .charAt(0).toUpperCase() + user.role.slice(1)
+                }
+              </Badge>
+            </p>
 
             <p className="w-[200px] truncate text-sm text-muted-foreground">
               {user.email}
@@ -49,9 +53,6 @@ export default function UserDropdown({
           </div>
         </div>
 
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onSelect={handleLogout}>
           Sign out

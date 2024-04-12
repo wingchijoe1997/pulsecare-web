@@ -12,9 +12,7 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
-  sex           String?
-  dateOfBirth   DateTime?       @map("date_of_birth")
-  role          Role            @default(patient)
+  role       String         @default("patient")
   password      String?
   image         String?
   MedicalRecord MedicalRecord[]

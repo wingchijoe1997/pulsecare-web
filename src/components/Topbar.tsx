@@ -18,6 +18,7 @@ import { Button, buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import Link from "next/link";
 
+import { logout } from "@/actions/logout";
 import { Session } from "next-auth";
 import UserDropdown from "./UserDropdown";
 

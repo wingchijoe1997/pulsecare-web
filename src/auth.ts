@@ -44,18 +44,11 @@ export const {
     // },
     // README: we decided to use JWT as strategy, hence we need to define it
     async jwt({ token, user }) {
-      if (user && user.id) {
-        token.role = user.role;
-        if (!token.sub) token.sub = user.id;
-      }
-
+      if (user) token.role = user.role;
       return token;
     },
     async session({ session, token }) {
       session.user.role = token.role;
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
       return session;
     },
   },
