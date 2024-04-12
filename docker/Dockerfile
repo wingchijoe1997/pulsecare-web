@@ -7,6 +7,8 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN corepack enable
 COPY . /pulsecare-webapp
 WORKDIR /pulsecare-webapp
+# Exposing port for when NOT running with docker-compose
+EXPOSE 3000
 # Args from .env file 
 ARG DATABASE_URL
 ARG AUTH_URL
@@ -25,6 +27,8 @@ CMD ["pnpm", "dev"]
 
 
 FROM deps as production-bundle
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
 ENV DATABASE_URL=$DATABASE_URL
 ENV AUTH_URL=$AUTH_URL
 ENV AUTH_SECRET=$AUTH_SECRET
