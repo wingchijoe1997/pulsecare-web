@@ -22,6 +22,13 @@ stages:
         pool:
           name: default
         steps:
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Write your commands here
+                
+                echo $(AUTH_SECRET)
           # - task: DockerCompose@0
           #   inputs:
           #     containerregistrytype: "Container Registry"
