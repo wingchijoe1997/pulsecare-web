@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { UserAvatar } from "./ui/user-avatar";
+import { capitalize } from "@/lib/utils";
 
 export default function UserDropdown({
   user,
@@ -39,9 +40,7 @@ export default function UserDropdown({
             <p className="font-medium">{user.name}</p>
             {user.id}
             <p>
-              <Badge>
-                {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
-              </Badge>
+              <Badge>{capitalize(user.role)}</Badge>
             </p>
 
             <p className="w-[200px] truncate text-sm text-muted-foreground">
