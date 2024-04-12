@@ -19,6 +19,7 @@ export default function DynamicBreadcrumb() {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
   const [displayedPaths, setDisplayedPaths] = useState(pathNames);
+
   useEffect(() => {
     const maxDisplayedItems = 3;
 
@@ -32,7 +33,7 @@ export default function DynamicBreadcrumb() {
     } else {
       setDisplayedPaths(pathNames);
     }
-  }, [paths]);
+  }, [paths, pathNames]);
   return (
     <Breadcrumb className="hidden md:flex">
       <BreadcrumbList>
