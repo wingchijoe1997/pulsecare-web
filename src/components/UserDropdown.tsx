@@ -40,10 +40,7 @@ export default function UserDropdown({
             {user.id}
             <p>
               <Badge>
-                {
-                  user.role
-                  // .charAt(0).toUpperCase() + user.role.slice(1)
-                }
+                {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
               </Badge>
             </p>
 
@@ -53,6 +50,9 @@ export default function UserDropdown({
           </div>
         </div>
 
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onSelect={handleLogout}>
           Sign out

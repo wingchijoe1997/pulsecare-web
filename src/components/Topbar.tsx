@@ -18,7 +18,6 @@ import { Button, buttonVariants } from "./ui/button";
 import { ModeToggle } from "./ui/mode-toggle";
 import Link from "next/link";
 
-import { logout } from "@/actions/logout";
 import { Session } from "next-auth";
 import UserDropdown from "./UserDropdown";
 
@@ -45,10 +44,7 @@ export default function Topbar({
 }>) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const user = session?.user;
-  // create a function to handle the logout as server action
-  const handleLogout = async () => {
-    logout();
-  };
+
   return (
     <header className="fixed border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
       <NavigationMenu className="mx-auto">

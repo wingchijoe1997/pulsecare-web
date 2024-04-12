@@ -9,9 +9,10 @@ import {
   Search,
   Truck,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
+import { auth } from "@/auth";
+import UserDropdown from "@/components/UserDropdown";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
@@ -56,11 +57,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { redirect } from "next/navigation";
+import CollapsibleSidebar from "../CollapsibleSidebar";
 import SideBar from "../Sidebar";
 import { sidebarLinks } from "./sidebarLinks";
-import CollapsibleSidebar from "../CollapsibleSidebar";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await auth();
+  if (!session) redirect("/auth/login");
+  const user = session.user;
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       {" "}
@@ -96,31 +101,7 @@ export default function Dashboard() {
               className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
             />
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="overflow-hidden rounded-full"
-              >
-                <Image
-                  src="/placeholder-user.jpg"
-                  width={36}
-                  height={36}
-                  alt="Avatar"
-                  className="overflow-hidden rounded-full"
-                />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <UserDropdown {...{ user }} />
         </header>
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
