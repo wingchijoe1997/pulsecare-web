@@ -9,19 +9,10 @@ import {
   Search,
   Truck,
 } from "lucide-react";
-import Link from "next/link";
 
 import { auth } from "@/auth";
 import UserDropdown from "@/components/UserDropdown";
-import { Badge } from "@/components/ui/badge";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,14 +39,7 @@ import {
 } from "@/components/ui/pagination";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import CollapsibleSidebar from "../CollapsibleSidebar";
