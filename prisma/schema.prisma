@@ -12,11 +12,13 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
-  role       String         @default("patient")
+  role          String          @default("patient")
   password      String?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  dateOfBirth   DateTime?       @map("date_of_birth")
+  sex           String?
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
