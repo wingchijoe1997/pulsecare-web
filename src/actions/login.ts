@@ -1,11 +1,11 @@
 "use server";
 
+import { signIn } from "@/auth";
 import { db } from "@/lib/prisma-client";
 import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";
 import { LoginSchema } from "@/schemas/login.schema";
-import { signIn } from "@/auth";
-import { z } from "zod";
 import { AuthError } from "next-auth";
+import { z } from "zod";
 
 interface ErrorOutput {
   error: { type: string; message: string };
