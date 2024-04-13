@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
+import { ApolloProviders } from "./providers/apollo-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,22 +20,21 @@ export default async function RootLayout({
 }>) {
   // const session = await auth();
   return (
-    // do we need SessionProvider here?
-    // <SessionProvider session={session} baseUrl="localhost">
-    <html lang="en">
-      <body className={`max-h-screen ${inter.className}`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextTopLoader showSpinner={false} />
-          {children}
-          <TailwindIndicator />
-        </ThemeProvider>
-      </body>
-    </html>
-    // </SessionProvider>
+    <ApolloProviders>
+      <html lang="en">
+        <body className={`max-h-screen ${inter.className}`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextTopLoader showSpinner={false} />
+            {children}
+            <TailwindIndicator />
+          </ThemeProvider>
+        </body>
+      </html>
+    </ApolloProviders>
   );
 }
