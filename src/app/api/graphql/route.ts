@@ -17,11 +17,10 @@ const handler = startServerAndCreateNextHandler(apolloServer, {
         },
       });
     }
-    const user = session.user;
     return {
-      user,
+      sessionUser: session.user,
       dataSources: {
-        prisma: await db.$connect(),
+        prisma: db,
       },
     };
   },

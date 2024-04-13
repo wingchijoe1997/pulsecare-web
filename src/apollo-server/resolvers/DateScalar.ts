@@ -1,3 +1,4 @@
+import { Resolvers } from "@apollo/client";
 import { GraphQLScalarType, Kind } from "graphql";
 
 const dateScalar = new GraphQLScalarType({

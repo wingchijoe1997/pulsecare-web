@@ -22,8 +22,9 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  MedicalRecord MedicalRecord[]
 }
 
 model Account {
@@ -84,26 +85,14 @@ model Authenticator {
 }
 
 model MedicalRecord {
-  id                            String    @id @default(auto()) @map("_id") @db.ObjectId
-  patientId                     String    @db.ObjectId
-  chestPain                     Int?      @map("cp") // Chest pain type: 1, 2, 3, 4
-  restingBloodPressure          Int?      @map("trestbps") // Resting blood pressure in mm Hg
-  cholesterol                   Int?      @map("chol") // Serum cholesterol in mg/dl
-  fastingBloodSugar             Boolean?  @map("fbs") // Fasting blood sugar: 1 for true, 0 for false
-  restingElectrocardio          Int?  @map("restecg") // Resting electrocardiographic results: 0, 1, 2
-  maxHeartRate                  Int?      @map("thalach") // Maximum heart rate achieved
-  exerciseInduced               Boolean?  @map("exang") // Exercise induced angina: 1 for yes, 0 for no
-  stDepressionInducedByExercise Float?    @map("oldepeak") // ST depression induced by exercise relative to rest
-  slope                         Int?      @map("slope") // Slope of the peak exercise ST segment: 1, 2, 3
-  vesselsColoredByFluoroscopy   Float?    @map("ca") // Number of major vessels colored by fluoroscopy
-  thalliumStressTest            Float?    @map("thal") // Thallium stress test result: 3, 6, 7
-  hasHeartDisease               Boolean?  @map("num") // Presence of heart disease: 0 for no, 1 for yes
-  createdAt                     DateTime @default(now())
-  updatedAt                     DateTime? @updatedAt
-  patient                       User?     @relation(fields: [patientId], references: [id], onDelete: Cascade)
-}
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  title       String
+  description String
+  date        DateTime
+  attachments String[]
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-enum Role {
-  patient
-  nurse
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -54,27 +54,6 @@ const nurses: Resolver = async (
   return await prisma.user.findMany({ where: { role: "nurse", ...user } });
 };
 
-const nursePatients: Resolver = async (
-  _,
-  { user },
-  { dataSources: { prisma } }: ContextValue,
-) => {
-  const patients = await prisma.user.findMany({
-    where: { role: "patient", nurseId: _.id, ...user },
-  });
-  return patients;
-};
-
-const patientNurse: Resolver = async (
-  _,
-  { user },
-  { dataSources: { prisma } }: ContextValue,
-) => {
-  return await prisma.user.findUnique({
-    where: { role: "nurse", id: _.nurseId, ...user },
-  });
-};
-
 export const queryResolvers: Resolvers = {
   Query: {
     user,
@@ -83,10 +62,6 @@ export const queryResolvers: Resolvers = {
     patients,
     nurse,
     nurses,
-  },
-  User: {
-    patients: nursePatients,
-    nurse: patientNurse,
   },
 };
 
