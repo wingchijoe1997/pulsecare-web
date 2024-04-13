@@ -5,7 +5,7 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { GraphQLError } from "graphql";
 
 const handler = startServerAndCreateNextHandler(apolloServer, {
-  context: async (req): Promise<ContextValue> => {
+  context: async (): Promise<ContextValue> => {
     const session = await auth();
 
     if (!session) {
