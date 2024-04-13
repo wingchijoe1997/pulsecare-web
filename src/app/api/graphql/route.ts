@@ -5,7 +5,7 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 import { GraphQLError } from "graphql";
 
 const handler = startServerAndCreateNextHandler(apolloServer, {
-  context: async (): Promise<ContextValue> => {
+  context: async (req): Promise<ContextValue> => {
     const session = await auth();
 
     if (!session) {
@@ -17,10 +17,11 @@ const handler = startServerAndCreateNextHandler(apolloServer, {
         },
       });
     }
+    const user = session.user;
     return {
-      sessionUser: session.user,
+      user,
       dataSources: {
-        prisma: db,
+        prisma: await db.$connect(),
       },
     };
   },

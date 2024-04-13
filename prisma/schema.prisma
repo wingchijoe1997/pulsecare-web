@@ -12,17 +12,14 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
-  role       String         @default("patient")
+  role          String          @default("patient")
   password      String?
   image         String?
-  MedicalRecord MedicalRecord[]
-
-  // https://www.prisma.io/docs/orm/prisma-schema/data-model/relations/self-relations#one-to-many-self-relations
-  nurseId       String?         @db.ObjectId
-  nurse         User?           @relation("NursePatients", fields: [nurseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  patients      User[]          @relation("NursePatients")
-  Account       Account[]
-  Session       Session[]
+  accounts      Account[]
+  sessions      Session[]
+  dateOfBirth   DateTime?       @map("date_of_birth")
+  sex           String?
+  // Optional for WebAuthn support
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
