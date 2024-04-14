@@ -47,6 +47,7 @@ import SideBar from "../Sidebar";
 import { sidebarLinks } from "./sidebarLinks";
 import DynamicBreadcrumb from "../DynamicBreadcrumb";
 import MedDataTable from "./MedDataTable";
+import { AddMedicalDataForm } from "./AddMedicalRecordForm";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -84,7 +85,7 @@ export default async function Dashboard() {
                   </CardDescription>
                 </CardHeader>
                 <CardFooter>
-                  <Button>Create New Entry</Button>
+                  <AddMedicalDataForm state={{ loading: false }} />
                 </CardFooter>
               </Card>
               <Card>

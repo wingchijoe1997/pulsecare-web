@@ -1,9 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { AlertCircle, CandyCane } from "lucide-react";
-
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -32,44 +30,58 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { MedRecordSchema } from "@/schemas/medRecord.schema";
-import { MutationResult, OperationVariables } from "@apollo/client";
+import { OperationVariables } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "next-auth";
-import { useState } from "react";
+import { AlertCircle, CandyCane } from "lucide-react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface addMedicalDataFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
-  sessionUser: User;
-  addMedicalData: ({ variables }: OperationVariables) => Promise<any>;
-  state: MutationResult<any>;
+  addCourse?: ({ variables }: OperationVariables) => Promise<any>;
+  // state: MutationResult<any>;
+  state: any;
 }
 export function AddMedicalDataForm({
-  sessionUser,
-  addMedicalData,
+  addMedData,
   state,
 }: addMedicalDataFormProps) {
   const [open, setOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof MedRecordSchema>>({
     resolver: zodResolver(MedRecordSchema),
     defaultValues: {
-      chestPain: 3,
+      chestPain: 2,
       cholesterol: 150,
       fastingBloodSugar: false,
-      maxHeartRate: 120,
-      restingBloodPressure: 120,
-      restingElectrocardio: 0,
+      maxHearhRate: 120,
     },
   });
 
   async function onSubmit(values: z.infer<typeof MedRecordSchema>) {
-    form.clearErrors();
-    await addMedicalData({
-      variables: { medicalRecord: { ...values, patientId: sessionUser.id } },
+    console.log("submitted  ", values);
+    startTransition(() => {
+      setTimeout(() => {}, 1000);
+      // login(values, callbackUrl)
+      //   .then((data) => {
+      //     if (data && "error" in data) {
+      //       form.setError("root.serverError", {
+      //         ...data.error,
+      //       });
+      //     }
+      //     // toast.success("Login Successful", {
+      //     //   description: "You are now logged in"
+      //     // })
+      //   })
+      //   .catch(() => {
+      //     form.setError("root.serverError", {
+      //       type: "500",
+      //       message: "Server error. Please try again later.",
+      //     });
+      //   });
     });
-    setOpen(false);
   }
 
   return (
@@ -86,39 +98,31 @@ export function AddMedicalDataForm({
                 Enter the details of the medical record you want to add.
               </DialogDescription>
             </DialogHeader>
+
             <FormField
               control={form.control}
               name="chestPain"
-              disabled={state.loading}
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Chest Pain</FormLabel>
-                    <Select
-                      disabled={state.loading}
-                      onValueChange={(selectedValue) => {
-                        field.value = parseInt(selectedValue);
-                        return field.onChange;
-                      }}
-                      defaultValue={field.value.toString()}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select the type of chest pain you are experiencing." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="1">Typical Angina</SelectItem>
-                        <SelectItem value="2">Atypical Angina</SelectItem>
-                        <SelectItem value="3">Non-Anginal Pain</SelectItem>
-                        <SelectItem value="4">Asymptomatic</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Chest Pain</FormLabel>
+                  <Select onValueChange={() => field.onChange(field.value)}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select the type of chest pain you are experiencing." />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="1">Typical Angina</SelectItem>
+                      <SelectItem value="2">Atypical Angina</SelectItem>
+                      <SelectItem value="3">Non-Anginal Pain</SelectItem>
+                      <SelectItem value="4">Asymptomatic</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
+
             <FormField
               control={form.control}
               name="cholesterol"
@@ -152,7 +156,6 @@ export function AddMedicalDataForm({
                 </p>
               </div>
               <FormField
-                disabled={state.loading}
                 control={form.control}
                 name="fastingBloodSugar"
                 render={({ field }) => {
@@ -162,7 +165,6 @@ export function AddMedicalDataForm({
                         id="fastingBloodSugar"
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        disabled={state.loading}
                       />
                     </FormControl>
                   );
@@ -170,19 +172,12 @@ export function AddMedicalDataForm({
               />
             </Label>
             <FormField
-              disabled={state.loading}
               control={form.control}
               name="restingElectrocardio"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Electrocardio at Rest</FormLabel>
-                  <Select
-                    onValueChange={(selectedValue) => {
-                      field.value = parseInt(selectedValue);
-                      return field.onChange;
-                    }}
-                    defaultValue={field.value.toString()}
-                  >
+                  <Select onValueChange={() => field.onChange(field.value)}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Type of Electrocardio result." />
@@ -205,9 +200,8 @@ export function AddMedicalDataForm({
               )}
             />
             <FormField
-              disabled={state.loading}
               control={form.control}
-              name="maxHeartRate"
+              name="maxHearhRate"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Maximum Heart Rate</FormLabel>
@@ -226,13 +220,14 @@ export function AddMedicalDataForm({
               )}
             />
             {/* <Collapsible
-              open={false}
               // open={isOpen}
               // onOpenChange={setIsOpen}
               className=" space-y-2"
             >
               <div className="flex items-center justify-between space-x-4 px-4">
-                <h4 className="text-sm font-semibold">Open for more Option</h4>
+                <h4 className="text-sm font-semibold">
+                  Open for more Option
+                </h4>
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" size="sm" className="w-9 p-0">
                     <ChevronsUpDown className="h-4 w-4" />
@@ -241,24 +236,20 @@ export function AddMedicalDataForm({
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="space-y-2">
-                <FormField
-                  control={form.control}
-                  name="restingBloodPressure"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>restingBloodPressure</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="string"
-                          disabled={state.loading}
-                          placeholder="1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+              control={form.control}
+              name="restingBloodPressure"
+              render={({ field }) => (
+                <FormItem>
+
+                  <FormLabel>restingBloodPressure</FormLabel>
+                  <FormControl>
+                    <Input type="string" disabled={state.loading} placeholder="1" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
                 <Label
                   htmlFor="exerciseInduced"
                   className=" flex items-center space-x-4 rounded-md border p-4"
@@ -293,14 +284,10 @@ export function AddMedicalDataForm({
                   name="stDepressionInducedByExercise"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel>stDepressionInducedByExercise</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          disabled={state.loading}
-                          placeholder="1"
-                          {...field}
-                        />
+                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -311,14 +298,10 @@ export function AddMedicalDataForm({
                   name="slope"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel>slope</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          disabled={state.loading}
-                          placeholder="1"
-                          {...field}
-                        />
+                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -329,14 +312,10 @@ export function AddMedicalDataForm({
                   name="vesselsColoredByFluoroscopy"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel>vesselsColoredByFluoroscopy</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          disabled={state.loading}
-                          placeholder="1"
-                          {...field}
-                        />
+                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -347,14 +326,10 @@ export function AddMedicalDataForm({
                   name="thalliumStressTest"
                   render={({ field }) => (
                     <FormItem>
+
                       <FormLabel>thalliumStressTest</FormLabel>
                       <FormControl>
-                        <Input
-                          type="number"
-                          disabled={state.loading}
-                          placeholder="1"
-                          {...field}
-                        />
+                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -391,6 +366,7 @@ export function AddMedicalDataForm({
                 </Label>
               </CollapsibleContent>
             </Collapsible> */}
+
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -401,8 +377,9 @@ export function AddMedicalDataForm({
                   {form.formState.errors.root.serverError.message}
                 </AlertDescription>
               </Alert>
-            )}{" "}
-            <DialogFooter className="gap-10 flex flex-row justify-between h-fit">
+            )}
+
+            <DialogFooter className="flex flex-row justify-center h-fit">
               <Button
                 type="button"
                 variant="outline"

@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle, BriefcaseMedical } from "lucide-react";
+import { AlertCircle, BriefcaseMedical, ShieldEllipsis } from "lucide-react";
 
 import { register } from "@/actions/register";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
