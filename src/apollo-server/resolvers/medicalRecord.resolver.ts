@@ -1,27 +1,9 @@
 import { Resolver, Resolvers } from "@apollo/client";
 import { ContextValue } from "../server";
 
-const medicalRecord: Resolver = async (
-  _,
-  { medicalRecord },
-  { dataSources: { prisma } }: ContextValue,
-) => {
-  return await prisma.medicalRecord.findUnique({
-    where: { ...medicalRecord },
-  });
-};
-
-const medicalRecords: Resolver = async (
-  _,
-  { medicalRecord },
-  { dataSources: { prisma } }: ContextValue,
-) => {
-  return await prisma.medicalRecord.findMany({ where: medicalRecord });
-};
-
 const patientMedicalRecords: Resolver = async (
   _,
-  __,
+  { id },
   { dataSources: { prisma } }: ContextValue,
 ) => {
   const medicalRecords = await prisma.medicalRecord.findMany({
@@ -43,10 +25,6 @@ const createMedicalRecord: Resolver = async (
 };
 
 export const mutationResolvers: Resolvers = {
-  Query: {
-    medicalRecord,
-    medicalRecords,
-  },
   User: {
     medicalRecords: patientMedicalRecords,
   },

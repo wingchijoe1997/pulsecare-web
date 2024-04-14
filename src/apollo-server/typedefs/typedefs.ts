@@ -18,13 +18,14 @@ const typeDefs = gql`
     #courseEnrollments(course: CourseInput): [Enrollment]
   }
 
-  #type Mutation {
-  #createCourse(course: CourseInput): Course
-  #deleteCourse(course: CourseInput): Course
-  #enrollStudent(student: StudentInput, course: #CourseInput): Enrollment
-  #dropCourse(student: StudentInput, course: CourseInput)#: Course
-  #editSection(student: StudentInput, course: #CourseInput, section: Int): Enrollment
-  #}
+  type Mutation {
+    createMedicalRecord(medicalRecord: MedicalRecordInput): MedicalRecord
+    # createCourse(course: CourseInput): Course
+    # deleteCourse(course: CourseInput): Course
+    # enrollStudent(student: StudentInput, course: #CourseInput): Enrollment
+    # dropCourse(student: StudentInput, course: CourseInput)#: Course
+    # editSection(student: StudentInput, course: #CourseInput, section: Int): Enrollment
+  }
   # TODO: Find a way to distinguish between student student and admin student
   type User {
     id: ID
@@ -37,10 +38,13 @@ const typeDefs = gql`
     image: String
     #accounts: [Account]
     #sessions: [Session]
-    #dateOfBirth: String
+    dateOfBirth: Date
     #Authenticator: [Authenticator]
     createdAt: Date
     updatedAt: Date
+    patients: [User]
+    nurse: User
+    medicalRecords: [MedicalRecord]
   }
 
   input UserInput {
@@ -54,8 +58,47 @@ const typeDefs = gql`
     image: String
     #accounts: [Account]
     #sessions: [Session]
-    #dateOfBirth: String
+    dateOfBirth: Date
     #Authenticator: [Authenticator]
+    createdAt: Date
+    updatedAt: Date
+  }
+
+  type MedicalRecord {
+    id: ID!
+    patientId: ID!
+    chestPain: Int
+    restingBloodPressure: Int
+    cholesterol: Int
+    fastingBloodSugar: Boolean
+    restingElectrocardio: Int
+    maxHeartRate: Int
+    exerciseInduced: Boolean
+    stDepressionInducedByExercise: Float
+    slope: Int
+    vesselsColoredByFluoroscopy: Float
+    thalliumStressTest: Float
+    hasHeartDisease: Boolean
+    createdAt: Date
+    updatedAt: Date
+    patient: User
+  }
+
+  input MedicalRecordInput {
+    id: ID
+    patientId: ID!
+    chestPain: Int
+    restingBloodPressure: Int
+    cholesterol: Int
+    fastingBloodSugar: Boolean
+    restingElectrocardio: Int
+    maxHeartRate: Int
+    exerciseInduced: Boolean
+    stDepressionInducedByExercise: Float
+    slope: Int
+    vesselsColoredByFluoroscopy: Float
+    thalliumStressTest: Float
+    hasHeartDisease: Boolean
     createdAt: Date
     updatedAt: Date
   }
