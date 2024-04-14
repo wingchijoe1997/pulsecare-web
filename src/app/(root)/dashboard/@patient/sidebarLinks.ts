@@ -1,5 +1,5 @@
 import { BarChart, Heart, Pill, Users } from "lucide-react";
-import { SidebarLinks } from "../Sidebar";
+import { SidebarLinks } from "../delete";
 
 export const sidebarLinks: SidebarLinks = [
   {

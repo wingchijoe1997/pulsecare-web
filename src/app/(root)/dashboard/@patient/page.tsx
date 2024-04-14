@@ -47,7 +47,7 @@ import { AddMedicalDataForm } from "./AddMedicalRecordForm";
 import MedDataTable from "./MedDataTable";
 import { NurseCard } from "./NurseCard";
 import { sidebarLinks } from "./sidebarLinks";
-import Sidebar from "../Sidebar";
+import Sidebar from "../delete";
 
 export default async function Dashboard() {
   const session = await auth();
