@@ -1,16 +1,9 @@
 "use client";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { AlertCircle, CandyCane } from "lucide-react";
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -19,23 +12,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { MedRecordSchema } from "@/schemas/medRecord.schema";
-import { OperationVariables } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, CandyCane } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { MedRecordSchema } from "@/schemas/medRecord.schema";
+import { OperationVariables } from "@apollo/client";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 interface addMedicalDataFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
@@ -48,40 +48,22 @@ export function AddMedicalDataForm({
   state,
 }: addMedicalDataFormProps) {
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof MedRecordSchema>>({
     resolver: zodResolver(MedRecordSchema),
     defaultValues: {
-      chestPain: 2,
+      chestPain: 3,
       cholesterol: 150,
       fastingBloodSugar: false,
       maxHearhRate: 120,
+      restingBloodPressure: 120,
+      restingElectrocardio: 0,
     },
   });
 
   async function onSubmit(values: z.infer<typeof MedRecordSchema>) {
+    form.clearErrors();
     console.log("submitted  ", values);
-    startTransition(() => {
-      setTimeout(() => {}, 1000);
-      // login(values, callbackUrl)
-      //   .then((data) => {
-      //     if (data && "error" in data) {
-      //       form.setError("root.serverError", {
-      //         ...data.error,
-      //       });
-      //     }
-      //     // toast.success("Login Successful", {
-      //     //   description: "You are now logged in"
-      //     // })
-      //   })
-      //   .catch(() => {
-      //     form.setError("root.serverError", {
-      //       type: "500",
-      //       message: "Server error. Please try again later.",
-      //     });
-      //   });
-    });
   }
 
   return (
@@ -98,31 +80,37 @@ export function AddMedicalDataForm({
                 Enter the details of the medical record you want to add.
               </DialogDescription>
             </DialogHeader>
-
             <FormField
               control={form.control}
               name="chestPain"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Chest Pain</FormLabel>
-                  <Select onValueChange={() => field.onChange(field.value)}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select the type of chest pain you are experiencing." />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="1">Typical Angina</SelectItem>
-                      <SelectItem value="2">Atypical Angina</SelectItem>
-                      <SelectItem value="3">Non-Anginal Pain</SelectItem>
-                      <SelectItem value="4">Asymptomatic</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>Chest Pain</FormLabel>
+                    <Select
+                      onValueChange={(selectedValue) => {
+                        field.value = parseInt(selectedValue);
+                        return field.onChange;
+                      }}
+                      defaultValue={field.value.toString()}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select the type of chest pain you are experiencing." />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="1">Typical Angina</SelectItem>
+                        <SelectItem value="2">Atypical Angina</SelectItem>
+                        <SelectItem value="3">Non-Anginal Pain</SelectItem>
+                        <SelectItem value="4">Asymptomatic</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
             />
-
             <FormField
               control={form.control}
               name="cholesterol"
@@ -177,7 +165,13 @@ export function AddMedicalDataForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Electrocardio at Rest</FormLabel>
-                  <Select onValueChange={() => field.onChange(field.value)}>
+                  <Select
+                    onValueChange={(selectedValue) => {
+                      field.value = parseInt(selectedValue);
+                      return field.onChange;
+                    }}
+                    defaultValue={field.value.toString()}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select Type of Electrocardio result." />
@@ -366,7 +360,6 @@ export function AddMedicalDataForm({
                 </Label>
               </CollapsibleContent>
             </Collapsible> */}
-
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -377,8 +370,14 @@ export function AddMedicalDataForm({
                   {form.formState.errors.root.serverError.message}
                 </AlertDescription>
               </Alert>
-            )}
-
+            )}{" "}
+            <Button
+              type="submit"
+              disabled={state.loading}
+              onClick={form.handleSubmit(onSubmit)}
+            >
+              Add Record
+            </Button>
             <DialogFooter className="flex flex-row justify-center h-fit">
               <Button
                 type="button"
