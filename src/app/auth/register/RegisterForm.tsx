@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle, ShieldEllipsis } from "lucide-react";
+import { AlertCircle, BriefcaseMedical, ShieldEllipsis } from "lucide-react";
 
 import {
   Form,
@@ -153,7 +153,7 @@ export function RegisterForm() {
                 htmlFor="isNurse"
                 className=" flex items-center space-x-4 rounded-md border p-4"
               >
-                <ShieldEllipsis />
+                <BriefcaseMedical />
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium leading-none">
                     Are you a nurse?

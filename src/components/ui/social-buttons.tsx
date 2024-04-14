@@ -19,7 +19,8 @@ const SocialButtons = () => {
         onClick={() => onClick("github")}
         disabled
       >
-        <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
+        {/* TODO: I think they removed the GitHub icon for copyright reasons */}
+        {/* <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" /> */}
         <span className="text-neutral-700 dark:text-neutral-300 text-sm">
           GitHub
         </span>
@@ -30,7 +31,8 @@ const SocialButtons = () => {
         type="button"
         onClick={() => onClick("google")}
       >
-        <IconBrandGoogleFilled className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
+        {/* TODO: I think they removed the GitHub icon for copyright reasons */}
+        {/* <IconBrandGoogleFilled className="h-4 w-4 text-neutral-800 dark:text-neutral-300" /> */}
         <span className="text-neutral-700 dark:text-neutral-300 text-sm">
           Google
         </span>
