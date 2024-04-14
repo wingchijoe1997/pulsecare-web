@@ -9,6 +9,8 @@ const typeDefs = gql`
     patients(user: UserInput): [User]
     nurse(user: UserInput): User
     nurses(user: UserInput): [User]
+    medicalRecord(medicalRecord: MedicalRecordInput): MedicalRecord
+    medicalRecords(medicalRecord: MedicalRecordInput): [MedicalRecord]
 
     #students(student: StudentInput): [Student]
     #student(student: StudentInput): Student

@@ -103,7 +103,7 @@ model MedicalRecord {
   vesselsColoredByFluoroscopy   Float?    @map("ca") // Number of major vessels colored by fluoroscopy
   thalliumStressTest            Float?    @map("thal") // Thallium stress test result: 3, 6, 7
   hasHeartDisease               Boolean?  @map("num") // Presence of heart disease: 0 for no, 1 for yes
-  createdAt                     DateTime? @default(now())
+  createdAt                     DateTime @default(now())
   updatedAt                     DateTime? @updatedAt
   patient                       User?     @relation(fields: [patientId], references: [id], onDelete: Cascade)
 }
