@@ -9,7 +9,7 @@ import {
   Users2,
 } from "lucide-react";
 import Link from "next/link";
-import { SidebarLinks } from "./delete";
+import { SidebarLinks } from "./Sidebar";
 
 // Create a prop to pass link and lucide icons based on role.
 
