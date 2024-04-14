@@ -96,7 +96,7 @@ model MedicalRecord {
   cholesterol                   Int?      @map("chol") // Serum cholesterol in mg/dl
   fastingBloodSugar             Boolean?  @map("fbs") // Fasting blood sugar: 1 for true, 0 for false
   restingElectrocardio          Int?  @map("restecg") // Resting electrocardiographic results: 0, 1, 2
-  maxHearhRate                  Int?      @map("thalach") // Maximum heart rate achieved
+  maxHeartRate                  Int?      @map("thalach") // Maximum heart rate achieved
   exerciseInduced               Boolean?  @map("exang") // Exercise induced angina: 1 for yes, 0 for no
   stDepressionInducedByExercise Float?    @map("oldepeak") // ST depression induced by exercise relative to rest
   slope                         Int?      @map("slope") // Slope of the peak exercise ST segment: 1, 2, 3

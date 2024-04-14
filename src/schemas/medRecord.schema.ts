@@ -7,7 +7,7 @@ export const MedRecordSchema = z.object({
   cholesterol: z.coerce.number().min(100).max(240),
   fastingBloodSugar: z.boolean(),
   restingElectrocardio: z.coerce.number(),
-  maxHearhRate: z.coerce.number().min(50).max(220),
+  maxHeartRate: z.coerce.number().min(50).max(220),
   // this will be optional
   // exerciseInduced: z.boolean(),
   // stDepressionInducedByExercise: z.number(),
