@@ -1,9 +1,28 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { AlertCircle, CandyCane } from "lucide-react";
+import {
+  AlertCircle,
+  CandyCane,
+  ChevronsUpDown,
+  ShieldEllipsis,
+} from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -12,30 +31,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { MedRecordSchema } from "@/schemas/medRecord.schema";
-import { OperationVariables } from "@apollo/client";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { MedRecordSchema } from "@/schemas/medRecord.schema";
+import { OperationVariables } from "@apollo/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { callAiModel } from "@/actions/callAiModel";
 
 interface addMedicalDataFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
@@ -63,7 +75,12 @@ export function AddMedicalDataForm({
 
   async function onSubmit(values: z.infer<typeof MedRecordSchema>) {
     form.clearErrors();
-    console.log("submitted  ", values);
+
+    callAiModel(values).then((data) => {
+      addMedData({ variables: { ...values, ...data } });
+      form.reset();
+      setOpen(false);
+    });
   }
 
   return (
@@ -213,15 +230,14 @@ export function AddMedicalDataForm({
                 </FormItem>
               )}
             />
-            {/* <Collapsible
+            <Collapsible
+              open={false}
               // open={isOpen}
               // onOpenChange={setIsOpen}
               className=" space-y-2"
             >
               <div className="flex items-center justify-between space-x-4 px-4">
-                <h4 className="text-sm font-semibold">
-                  Open for more Option
-                </h4>
+                <h4 className="text-sm font-semibold">Open for more Option</h4>
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" size="sm" className="w-9 p-0">
                     <ChevronsUpDown className="h-4 w-4" />
@@ -230,20 +246,24 @@ export function AddMedicalDataForm({
                 </CollapsibleTrigger>
               </div>
               <CollapsibleContent className="space-y-2">
-              <FormField
-              control={form.control}
-              name="restingBloodPressure"
-              render={({ field }) => (
-                <FormItem>
-
-                  <FormLabel>restingBloodPressure</FormLabel>
-                  <FormControl>
-                    <Input type="string" disabled={state.loading} placeholder="1" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <FormField
+                  control={form.control}
+                  name="restingBloodPressure"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>restingBloodPressure</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="string"
+                          disabled={state.loading}
+                          placeholder="1"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Label
                   htmlFor="exerciseInduced"
                   className=" flex items-center space-x-4 rounded-md border p-4"
@@ -278,10 +298,14 @@ export function AddMedicalDataForm({
                   name="stDepressionInducedByExercise"
                   render={({ field }) => (
                     <FormItem>
-
                       <FormLabel>stDepressionInducedByExercise</FormLabel>
                       <FormControl>
-                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
+                        <Input
+                          type="number"
+                          disabled={state.loading}
+                          placeholder="1"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -292,10 +316,14 @@ export function AddMedicalDataForm({
                   name="slope"
                   render={({ field }) => (
                     <FormItem>
-
                       <FormLabel>slope</FormLabel>
                       <FormControl>
-                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
+                        <Input
+                          type="number"
+                          disabled={state.loading}
+                          placeholder="1"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -306,10 +334,14 @@ export function AddMedicalDataForm({
                   name="vesselsColoredByFluoroscopy"
                   render={({ field }) => (
                     <FormItem>
-
                       <FormLabel>vesselsColoredByFluoroscopy</FormLabel>
                       <FormControl>
-                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
+                        <Input
+                          type="number"
+                          disabled={state.loading}
+                          placeholder="1"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -320,10 +352,14 @@ export function AddMedicalDataForm({
                   name="thalliumStressTest"
                   render={({ field }) => (
                     <FormItem>
-
                       <FormLabel>thalliumStressTest</FormLabel>
                       <FormControl>
-                        <Input type="number" disabled={state.loading} placeholder="1" {...field} />
+                        <Input
+                          type="number"
+                          disabled={state.loading}
+                          placeholder="1"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -359,7 +395,7 @@ export function AddMedicalDataForm({
                   />
                 </Label>
               </CollapsibleContent>
-            </Collapsible> */}
+            </Collapsible>
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
@@ -371,14 +407,7 @@ export function AddMedicalDataForm({
                 </AlertDescription>
               </Alert>
             )}{" "}
-            <Button
-              type="submit"
-              disabled={state.loading}
-              onClick={form.handleSubmit(onSubmit)}
-            >
-              Add Record
-            </Button>
-            <DialogFooter className="flex flex-row justify-center h-fit">
+            <DialogFooter className="gap-10 flex flex-row justify-between h-fit">
               <Button
                 type="button"
                 variant="outline"

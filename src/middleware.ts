@@ -6,20 +6,14 @@ import {
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
 } from "@/lib/routes";
+import { auth } from "./auth";
 const { auth: middleware } = NextAuth(authConfig);
 
 export default middleware(async (req) => {
   const { nextUrl } = req;
   // TODO: understand if it's better to check req.auth or auth() in the middleware
-  const isLoggedIn = !!req.auth;
-  // const isLoggedIn = !!await auth();
-
-  // const session = await auth();
-  // const user1 = session?.user;
-  // console.log("user role in session in middleware", user1?.role);
-
-  // const user2 = req.auth?.user;
-  // console.log("user role in req.auth in middleware", user2?.role);
+  // const isLoggedIn = !!req.auth;
+  const isLoggedIn = !!(await auth());
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);

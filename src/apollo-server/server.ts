@@ -5,6 +5,7 @@ import { User } from "next-auth";
 import queryResolvers from "./resolvers/nurse.resolver";
 import typeDefs from "./typedefs/typedefs";
 import { dateScalarResolver } from "./resolvers/DateScalar";
+import mutationResolvers from "./resolvers/medicalRecord.resolver";
 
 export interface ContextValue {
   sessionUser: User;
@@ -19,6 +20,6 @@ export interface ContextValue {
 //`;
 
 export const apolloServer = new ApolloServer<ContextValue>({
-  resolvers: [dateScalarResolver, queryResolvers],
+  resolvers: [dateScalarResolver, queryResolvers, mutationResolvers],
   typeDefs,
 });
