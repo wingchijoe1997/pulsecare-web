@@ -1,3 +1,4 @@
+// "use client"
 import {
   ChevronLeft,
   ChevronRight,
@@ -43,15 +44,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import CollapsibleSidebar from "../CollapsibleSidebar";
 import DynamicBreadcrumb from "../DynamicBreadcrumb";
+import Sidebar from "../Sidebar";
 import { AddMedicalDataForm } from "./AddMedicalRecordForm";
 import MedDataTable from "./MedDataTable";
 import { NurseCard } from "./NurseCard";
 import { sidebarLinks } from "./sidebarLinks";
-import Sidebar from "../Sidebar";
 
 export default async function Dashboard() {
   const session = await auth();
   if (!session) redirect("/auth/login");
+
   const user = session.user;
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
