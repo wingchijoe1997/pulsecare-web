@@ -87,13 +87,23 @@ export default function Topbar({
                       {label}
                     </Link>
                   ))}
-                  {/* TODO: Implement Sign In Button */}
-                  <Button
-                    className={`border ${buttonVariants({ variant: "secondary" })}`}
-                  >
-                    <ActivityIcon className="mr-2 w-5 h-5" />
-                    Sign-In
-                  </Button>
+                  {user ? (
+                    <div className="flex gap-4 items-center">
+                      <p className="text-muted-foreground">
+                        Hello, {user.name}
+                      </p>
+                      <UserDropdown {...{ user }} />
+                    </div>
+                  ) : (
+                    <Link href="/auth/login" passHref>
+                      <Button
+                        className={`border ${buttonVariants({ variant: "secondary" })}`}
+                      >
+                        <ActivityIcon className="mr-2 w-5 h-5" />
+                        Sign-In
+                      </Button>
+                    </Link>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
