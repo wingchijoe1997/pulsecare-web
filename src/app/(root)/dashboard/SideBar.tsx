@@ -15,7 +15,7 @@ export type SidebarLinks = {
   icon: LucideIcon;
 }[];
 
-export default function SideBar({
+export default function Sidebar({
   sidebarLinks,
 }: {
   sidebarLinks: SidebarLinks;

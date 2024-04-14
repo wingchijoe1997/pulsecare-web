@@ -3,7 +3,7 @@ import { ContextValue } from "../server";
 
 const patientMedicalRecords: Resolver = async (
   _,
-  { id },
+  __,
   { dataSources: { prisma } }: ContextValue,
 ) => {
   const medicalRecords = await prisma.medicalRecord.findMany({

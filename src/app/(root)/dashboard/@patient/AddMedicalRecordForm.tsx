@@ -1,19 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  AlertCircle,
-  CandyCane,
-  ChevronsUpDown,
-  ShieldEllipsis,
-} from "lucide-react";
+import { AlertCircle, CandyCane } from "lucide-react";
 
+import { callAiModel } from "@/actions/callAiModel";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import {
   Dialog,
   DialogContent,
@@ -47,11 +38,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { callAiModel } from "@/actions/callAiModel";
 
 interface addMedicalDataFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
-  addCourse?: ({ variables }: OperationVariables) => Promise<any>;
+  addMedData?: ({ variables }: OperationVariables) => Promise<any>;
   // state: MutationResult<any>;
   state: any;
 }
@@ -77,7 +67,7 @@ export function AddMedicalDataForm({
     form.clearErrors();
 
     callAiModel(values).then((data) => {
-      addMedData({ variables: { ...values, ...data } });
+      if (addMedData) addMedData({ variables: { ...values, ...data } });
       form.reset();
       setOpen(false);
     });
@@ -230,7 +220,7 @@ export function AddMedicalDataForm({
                 </FormItem>
               )}
             />
-            <Collapsible
+            {/* <Collapsible
               open={false}
               // open={isOpen}
               // onOpenChange={setIsOpen}
@@ -395,7 +385,7 @@ export function AddMedicalDataForm({
                   />
                 </Label>
               </CollapsibleContent>
-            </Collapsible>
+            </Collapsible> */}
             {form.formState.errors.root && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
