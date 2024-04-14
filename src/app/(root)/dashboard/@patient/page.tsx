@@ -37,17 +37,17 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { redirect } from "next/navigation";
 import CollapsibleSidebar from "../CollapsibleSidebar";
-import SideBar from "../Sidebar";
-import { sidebarLinks } from "./sidebarLinks";
 import DynamicBreadcrumb from "../DynamicBreadcrumb";
-import MedDataTable from "./MedDataTable";
+import SideBar from "../Sidebar";
 import { AddMedicalDataForm } from "./AddMedicalRecordForm";
+import MedDataTable from "./MedDataTable";
+import { NurseCard } from "./NurseCard";
+import { sidebarLinks } from "./sidebarLinks";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -88,21 +88,8 @@ export default async function Dashboard() {
                   <AddMedicalDataForm state={{ loading: false }} />
                 </CardFooter>
               </Card>
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardDescription>This Week</CardDescription>
-                  <CardTitle className="text-4xl">$1,329</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-xs text-muted-foreground">
-                    +25% from last week
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Progress value={25} aria-label="25% increase" />
-                </CardFooter>
-              </Card>
-              <Card>
+              <NurseCard className="col-span-2" />
+              {/* <Card>
                 <CardHeader className="pb-2">
                   <CardDescription>This Month</CardDescription>
                   <CardTitle className="text-4xl">$5,329</CardTitle>
@@ -115,7 +102,7 @@ export default async function Dashboard() {
                 <CardFooter>
                   <Progress value={12} aria-label="12% increase" />
                 </CardFooter>
-              </Card>
+              </Card> */}
             </div>
             <Tabs defaultValue="week">
               <div className="flex items-center">

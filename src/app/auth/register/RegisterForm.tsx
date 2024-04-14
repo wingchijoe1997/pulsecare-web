@@ -10,8 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle, BriefcaseMedical, ShieldEllipsis } from "lucide-react";
+import { AlertCircle, BriefcaseMedical } from "lucide-react";
 
+import { register } from "@/actions/register";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -25,12 +27,10 @@ import { Label } from "@/components/ui/label";
 import { SocialButtons } from "@/components/ui/social-buttons";
 import { RegisterSchema } from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { register } from "@/actions/register";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useSearchParams } from "next/navigation";
 
 export function RegisterForm() {
   const searchParams = useSearchParams();
