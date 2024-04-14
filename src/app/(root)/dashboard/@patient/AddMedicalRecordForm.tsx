@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { AlertCircle, CandyCane } from "lucide-react";
 
-import { callAiModel } from "@/actions/callAiModel";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Dialog,
@@ -33,20 +32,22 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { MedRecordSchema } from "@/schemas/medRecord.schema";
-import { OperationVariables } from "@apollo/client";
+import { MutationResult, OperationVariables } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "next-auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 interface addMedicalDataFormProps {
   // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
-  addMedData?: ({ variables }: OperationVariables) => Promise<any>;
-  // state: MutationResult<any>;
-  state: any;
+  sessionUser: User;
+  addMedicalData: ({ variables }: OperationVariables) => Promise<any>;
+  state: MutationResult<any>;
 }
 export function AddMedicalDataForm({
-  addMedData,
+  sessionUser,
+  addMedicalData,
   state,
 }: addMedicalDataFormProps) {
   const [open, setOpen] = useState(false);
@@ -57,7 +58,7 @@ export function AddMedicalDataForm({
       chestPain: 3,
       cholesterol: 150,
       fastingBloodSugar: false,
-      maxHearhRate: 120,
+      maxHeartRate: 120,
       restingBloodPressure: 120,
       restingElectrocardio: 0,
     },
@@ -65,12 +66,10 @@ export function AddMedicalDataForm({
 
   async function onSubmit(values: z.infer<typeof MedRecordSchema>) {
     form.clearErrors();
-
-    callAiModel(values).then((data) => {
-      if (addMedData) addMedData({ variables: { ...values, ...data } });
-      form.reset();
-      setOpen(false);
+    await addMedicalData({
+      variables: { medicalRecord: { ...values, patientId: sessionUser.id } },
     });
+    setOpen(false);
   }
 
   return (
@@ -90,11 +89,13 @@ export function AddMedicalDataForm({
             <FormField
               control={form.control}
               name="chestPain"
+              disabled={state.loading}
               render={({ field }) => {
                 return (
                   <FormItem>
                     <FormLabel>Chest Pain</FormLabel>
                     <Select
+                      disabled={state.loading}
                       onValueChange={(selectedValue) => {
                         field.value = parseInt(selectedValue);
                         return field.onChange;
@@ -151,6 +152,7 @@ export function AddMedicalDataForm({
                 </p>
               </div>
               <FormField
+                disabled={state.loading}
                 control={form.control}
                 name="fastingBloodSugar"
                 render={({ field }) => {
@@ -160,6 +162,7 @@ export function AddMedicalDataForm({
                         id="fastingBloodSugar"
                         checked={field.value}
                         onCheckedChange={field.onChange}
+                        disabled={state.loading}
                       />
                     </FormControl>
                   );
@@ -167,6 +170,7 @@ export function AddMedicalDataForm({
               />
             </Label>
             <FormField
+              disabled={state.loading}
               control={form.control}
               name="restingElectrocardio"
               render={({ field }) => (
@@ -201,8 +205,9 @@ export function AddMedicalDataForm({
               )}
             />
             <FormField
+              disabled={state.loading}
               control={form.control}
-              name="maxHearhRate"
+              name="maxHeartRate"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Maximum Heart Rate</FormLabel>
