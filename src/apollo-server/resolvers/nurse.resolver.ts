@@ -32,7 +32,7 @@ const patients: Resolver = async (
   { user },
   { sessionUser, dataSources: { prisma } }: ContextValue,
 ) => {
-  // if (sessionUser.role === "patient") return null;
+  if (sessionUser.role === "patient") return null;
   return await prisma.user.findMany({ where: { role: "patient", ...user } });
 };
 

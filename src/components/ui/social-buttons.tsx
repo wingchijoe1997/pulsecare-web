@@ -1,5 +1,4 @@
 "use client";
-import { IconBrandGithub, IconBrandGoogleFilled } from "@tabler/icons-react";
 import { Button } from "./button";
 import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/lib/routes";

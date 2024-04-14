@@ -9,9 +9,9 @@ import {
   Users2,
 } from "lucide-react";
 import Link from "next/link";
+import { SidebarLinks } from "./Sidebar";
 
 // Create a prop to pass link and lucide icons based on role.
-import { SidebarLinks } from "./Sidebar";
 
 export default function CollapsibleSidebar({
   sidebarLinks,

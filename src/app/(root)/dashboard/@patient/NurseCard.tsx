@@ -1,15 +1,13 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
-  CardHeader,
   CardDescription,
-  CardTitle,
-  CardContent,
   CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
-import React from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 export const NurseCard = ({ className }: { className?: string }) => (
   <Card className={cn("flex flex-col justify-between", className)}>
