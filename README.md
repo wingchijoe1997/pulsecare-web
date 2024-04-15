@@ -120,8 +120,8 @@ Make sure Docker deamon is running.
 
 To Build and run services:
 
-```sh
-docker compose -f ./docker/docker-compose.yaml -p pulsecare-web --profile dev up --build -d -V
+```ph
+pnpm local-dev
 ```
 
 When you are done developing, you can stop and remove the containers::
