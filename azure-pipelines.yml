@@ -13,7 +13,7 @@ variables:
   DOCKER_BUILDKIT: 1
 
 stages:
-  - stage: Build_try
+  - stage: Build
     displayName: Build image
     jobs:
       - job: Build
@@ -22,6 +22,34 @@ stages:
         pool:
           name: default
         steps:
+          - task: NodeTool@0
+            inputs:
+              versionSource: "spec"
+              versionSpec: "20.x"
+              checkLatest: true
+
+          - script: |
+              npm install
+
+            displayName: "Run Install"
+          - script: |
+              npm run test:ci
+            displayName: "Run Tests with Coverage"
+
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: "JUnit"
+              testResultsFiles: junit.xml
+              searchFolder: "$(System.DefaultWorkingDirectory)"
+              failTaskOnMissingResultsFile: true
+
+          - task: PublishCodeCoverageResults@1
+            condition: succeededOrFailed()
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+            displayName: "Publish Code Coverage Results"
+
           # - task: DockerCompose@0
           #   inputs:
           #     containerregistrytype: "Container Registry"
@@ -30,6 +58,7 @@ stages:
           #     action: "Build services"
           #     additionalImageTags: $(Build.BuildId)
           #     includeLatestTag: true
+
           - task: Docker@2
             displayName: Build an image
             inputs:
@@ -41,6 +70,7 @@ stages:
 
               tags: "$(tag)"
               arguments: "--target=production --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_URL=$(AUTH_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
+
           - task: Docker@2
             displayName: Push an image
             inputs:
@@ -50,6 +80,7 @@ stages:
               Dockerfile: "docker/Dockerfile"
               tags: "$(tag)"
               arguments: ""
+
         # # - task: Docker@2
         # #   inputs:
         # #     containerRegistry: 'Github Container Registry'
