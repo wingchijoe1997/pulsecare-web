@@ -40,7 +40,7 @@ export default function UserDropdown({
             <p className="font-medium">{user.name}</p>
             {user.id}
             <div>
-              <Badge>{capitalize(user.role)}</Badge>
+              {user.role ?? <Badge>{capitalize(user.role ?? "")}</Badge>}
             </div>
 
             <p className="w-[200px] truncate text-sm text-muted-foreground">
