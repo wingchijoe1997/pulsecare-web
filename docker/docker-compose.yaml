@@ -18,8 +18,8 @@ services:
     ports:
       - "27018:27018"
     restart: always
-    networks:
-      - pulsecare-net
+    # networks:
+    #   - pulsecare-net
 
   web_prod:
     container_name: Pulsecare_Webapp-prod
@@ -71,9 +71,8 @@ services:
       - ../:/pulsecare-web
       - /pulsecare-web/node_modules
       - /pulsecare-web/.next
-    networks:
-      - pulsecare-net
-
-networks:
-  pulsecare-net:
-    external: true
+    # networks:
+    #   - pulsecare-net
+# networks:
+#   pulsecare-net:
+#     external: true
