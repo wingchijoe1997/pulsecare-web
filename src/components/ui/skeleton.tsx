@@ -12,7 +12,7 @@ function Skeleton({
   );
 }
 
-const SVGSkeleton = ({ className }) => (
+const SVGSkeleton = ({ className }: { className: string }) => (
   <svg className={className + " animate-pulse rounded bg-gray-300"} />
 );
 
