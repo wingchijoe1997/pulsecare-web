@@ -7,43 +7,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { AddMedicalDataForm } from "./AddMedicalRecordForm";
 import { User } from "next-auth";
+import { AddMedicalDataForm } from "./AddMedicalRecordForm";
 
-import { gql, useMutation } from "@apollo/client";
-import { MedicalRecord } from "@prisma/client";
-const ADD_MEDICAL_DATA = gql`
-  mutation CreateMedicalRecord($medicalRecord: MedicalRecordInput) {
-    createMedicalRecord(medicalRecord: $medicalRecord) {
-      id
-      patientId
-      chestPain
-      restingBloodPressure
-      cholesterol
-      fastingBloodSugar
-      restingElectrocardio
-      maxHeartRate
-      exerciseInduced
-      stDepressionInducedByExercise
-      slope
-      vesselsColoredByFluoroscopy
-      thalliumStressTest
-      hasHeartDisease
-      createdAt
-      updatedAt
-    }
-  }
-`;
+import { MutationResult, OperationVariables } from "@apollo/client";
+
+interface addMedicalDataCardProps {
+  sessionUser: User;
+  className?: string;
+  addMedicalData: ({ variables }: OperationVariables) => Promise<any>;
+  state: MutationResult;
+}
+
 export const AddMedicalDataCard = ({
   sessionUser,
   className,
-}: {
-  sessionUser: Readonly<User>;
-  className?: string;
-}) => {
-  const [addMedicalData, state] = useMutation<MedicalRecord>(ADD_MEDICAL_DATA, {
-    // refetchQueries: [{ query: ADD_MEDICAL_DATA }]
-  });
+  addMedicalData,
+  state,
+}: addMedicalDataCardProps) => {
   return (
     <Card className={cn(className)}>
       <CardHeader className="pb-3">

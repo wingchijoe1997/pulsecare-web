@@ -1,58 +1,33 @@
 "use client";
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "./columns";
-import { gql, useQuery } from "@apollo/client";
-import { MedicalRecord } from "@prisma/client";
-import { User } from "next-auth";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
-  TableCaption,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
+  TableCaption,
   TableCell,
   TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
+import { OperationVariables, QueryResult } from "@apollo/client";
+import { MedicalRecord } from "@prisma/client";
+import { User } from "next-auth";
+import { columns } from "./columns";
 
-const GET_MEDICAL_RECORDS = gql`
-  query MedicalRecord($medicalRecord: MedicalRecordInput) {
-    medicalRecords(medicalRecord: $medicalRecord) {
-      id
-      # patientId
-      chestPain
-      restingBloodPressure
-      cholesterol
-      fastingBloodSugar
-      restingElectrocardio
-      maxHeartRate
-      exerciseInduced
-      stDepressionInducedByExercise
-      slope
-      vesselsColoredByFluoroscopy
-      thalliumStressTest
-      hasHeartDisease
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export default function MedDataTable({
-  sessionUser,
-}: {
-  sessionUser: Readonly<User>;
-}) {
-  const { data, loading, error } = useQuery<{
-    medicalRecords: MedicalRecord[];
-  }>(GET_MEDICAL_RECORDS, {
-    variables: {
-      medicalRecord: {
-        patientId: sessionUser.id,
-      },
+interface medDataTableProps {
+  // addCourse: ({variables}:OperationVariables) => Promise<FetchResult<Course>>;
+  sessionUser: User;
+  getMedicalData: QueryResult<
+    {
+      medicalRecords: MedicalRecord[];
     },
-  });
+    OperationVariables
+  >;
+}
+export default function MedDataTable(props: medDataTableProps) {
+  const { data, loading, error } = props.getMedicalData;
   // useQuery(GET_USER_WITH_ID, { ssr: fal  se });
   if (loading)
     return (
