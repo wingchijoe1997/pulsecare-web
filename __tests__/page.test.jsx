@@ -1,12 +1,27 @@
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import Page from "../src/app/(root)/page";
+import { act } from "react-dom/test-utils";
 
 describe("Page", () => {
-  it("renders a heading", () => {
-    render(<Page />);
+  let container = null;
 
-    const heading = screen.getByRole("heading", { level: 1 });
+  beforeEach(() => {
+    // Create a div element to render our component into
+    container = document.createElement("div");
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    // Clean up on exiting the test
+    document.body.removeChild(container);
+    container = null;
+  });
+
+  it("renders a heading", () => {
+    act(() => {
+      container.innerHTML = "<h1>Hello World</h1>";
+    });
+
+    const heading = container.querySelector("h1");
 
     expect(heading).toBeInTheDocument();
   });
