@@ -1,12 +1,6 @@
 import { MedicalRecord } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
-// chestPain: z.coerce.number(),
-// restingBloodPressure: z.coerce.number(),
-// cholesterol: z.coerce.number().min(100).max(240),
-// fastingBloodSugar: z.boolean(),
-// restingElectrocardio: z.coerce.number(),
-// maxHeartRate: z.coerce.number().min(50).max(220),
 export const columns: ColumnDef<MedicalRecord>[] = [
   {
     accessorKey: "id",

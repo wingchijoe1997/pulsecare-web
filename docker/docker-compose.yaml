@@ -18,8 +18,8 @@ services:
     ports:
       - "27018:27018"
     restart: always
-    # networks:
-    #   - pulsecare-net
+    networks:
+      - pulsecare-net
 
   web_prod:
     container_name: Pulsecare_Webapp-prod
@@ -52,6 +52,8 @@ services:
       - DATABASE_URL=mongodb://mongo6:27018/pulsecare-web?replicaSet=rs0&retryWrites=true&w=majority&directConnection=true
       # For WSL: https://www.reddit.com/r/nextjs/comments/1638ec6/comment/jy1h8ys/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
       - WATCHPACK_POLLING=true
+    env_file:
+      - ../.env.local
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -69,3 +71,9 @@ services:
       - ../:/pulsecare-web
       - /pulsecare-web/node_modules
       - /pulsecare-web/.next
+    networks:
+      - pulsecare-net
+
+networks:
+  pulsecare-net:
+    external: true
