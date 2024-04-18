@@ -12,7 +12,9 @@
     "prepare": "husky",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit"
+    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit",
+    "prisma:generate": "dotenv -e .env.local -- pnpm dlx prisma generate",
+    "prisma:push": "dotenv -e .env.local -- pnpm dlx prisma db push"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",

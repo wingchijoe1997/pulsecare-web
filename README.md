@@ -24,7 +24,7 @@
 <h3 align="center">PulseCare</h3>
 
   <p align="center">
-    PulseCare is an app that connects patients with nurses and provides a platform for them to communicate and share information.
+    PulseCare is the app that connects patients with nurses and provides a platform for them to communicate and share information.
     <br />
     <a href="https://github.com/CC-Comp308001-Group04/pulsecare-web"><strong>Explore the docs »</strong></a>
     <br />
@@ -98,10 +98,18 @@ Get MongodDB Atlas connection string:
    git clone https://github.com/CC-Comp308001-Group04/pulsecare-web.git && cd pulsecare-web
    ```
 2. Install NPM packages
+
    ```sh
    pnpm install
    ```
-3. Create a `.env.local` file from the `.env.local.template` and fill in the required information
+
+3. Install Dotenv CLI
+
+   ```sh
+   pnpm i -g dotenv-cli
+   ```
+
+4. Create a `.env.local` file from the `.env.local.template` and fill in the required information
    ```sh
    cp .env.local.template .env.local
    ```
