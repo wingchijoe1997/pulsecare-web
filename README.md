@@ -166,7 +166,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 ## Contact
 
-David Pietrocola - pietrocoladavid@gmail.com - [LinkedIn](https://www.linkedin.com/in/pietrocoladavid)
+David Pietrocola - pietrocoladavid@gmail.com - [LinkedIn](https://www.linkedin.com/in/pietrocoladavid) 
+
 Wing Chi Lam - wingchijoe@gmail.com - [LinkedIn](https://www.linkedin.com/in/wingchilam/)
 <p align="right">><a href="#readme-top">TOP</a><</p>
 
