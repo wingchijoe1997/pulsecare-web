@@ -167,7 +167,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Contact
 
 David Pietrocola - pietrocoladavid@gmail.com - [LinkedIn](https://www.linkedin.com/in/pietrocoladavid)
-
+Wing Chi Lam - wingchijoe@gmail.com - [LinkedIn](https://www.linkedin.com/in/wingchilam/)
 <p align="right">><a href="#readme-top">TOP</a><</p>
 
 [contributors-shield]: https://img.shields.io/github/contributors/CC-Comp308001-Group04/pulsecare-web.svg?style=for-the-badge
